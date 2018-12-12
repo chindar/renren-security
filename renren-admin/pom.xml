@@ -10,13 +10,13 @@
 	<description>renren-admin</description>
 
 	<properties>
-		<quartz.version>2.3.0</quartz.version>
 		<shiro.version>1.4.0</shiro.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
 		<aliyun.oss.version>2.5.0</aliyun.oss.version>
 		<qcloud.cos.version>4.4</qcloud.cos.version>
 		<swagger.version>2.7.0</swagger.version>
+		<hutool.version>4.1.9</hutool.version>
 	</properties>
 
 	<dependencies>
@@ -74,6 +74,11 @@
 					<artifactId>slf4j-log4j12</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>${hutool.version}</version>
 		</dependency>
 	</dependencies>
 
