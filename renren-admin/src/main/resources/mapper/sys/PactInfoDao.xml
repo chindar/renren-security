@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.sys.dao.PactInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.sys.entity.PactInfoEntity" id="pactInfoMap">
+                    <result property="id" column="id"/>
+                    <result property="name" column="name"/>
+                    <result property="businessName" column="business_name"/>
+                    <result property="cityId" column="city_id"/>
+                    <result property="startDate" column="start_date"/>
+                    <result property="endDate" column="end_date"/>
+                    <result property="createTime" column="create_time"/>
+                    <result property="pactStatus" column="pact_status"/>
+                    <result property="fileId" column="file_id"/>
+                    <result property="fileName" column="file_name"/>
+                    <result property="isDelete" column="is_delete"/>
+            </resultMap>
+
+
+</mapper>

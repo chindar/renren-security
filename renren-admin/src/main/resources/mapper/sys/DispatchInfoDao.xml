@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.sys.dao.DispatchInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.sys.entity.DispatchInfoEntity" id="dispatchInfoMap">
+                    <result property="id" column="id"/>
+                    <result property="month" column="month"/>
+                    <result property="courierId" column="courier_id"/>
+                    <result property="allOrderTotal" column="all_order_total"/>
+                    <result property="countOrderTotal" column="count_order_total"/>
+                    <result property="large" column="large"/>
+                    <result property="small" column="small"/>
+                    <result property="thrIdentical" column="thr_identical"/>
+                    <result property="afterSale" column="after_sale"/>
+                    <result property="sellerPick" column="seller_pick"/>
+                    <result property="salary" column="salary"/>
+                    <result property="creater" column="creater"/>
+                    <result property="createDate" column="create_date"/>
+                    <result property="modify" column="modify"/>
+                    <result property="modifyDate" column="modify_date"/>
+                    <result property="isDelete" column="is_delete"/>
+            </resultMap>
+
+
+</mapper>
