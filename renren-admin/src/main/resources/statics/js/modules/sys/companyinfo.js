@@ -60,14 +60,8 @@ $(function () {
                     }, 
                                                                 {
                         label: '',
-                        name: '
-
-
-businessFileid',
-                        index: '
-
-
-business_fileid',
+                        name: 'businessFileid',
+                        index: 'business_fileid',
                         width: 80
                     }, 
                                                                 {
