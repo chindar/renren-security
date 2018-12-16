@@ -85,7 +85,7 @@ public class CourierEntity implements Serializable {
 	/**
 	 * 
 	 */
-	private Integer creater;
+	private String creater;
 	/**
 	 * 
 	 */
@@ -93,7 +93,7 @@ public class CourierEntity implements Serializable {
 	/**
 	 * 
 	 */
-	private Integer modify;
+	private String modify;
 	/**
 	 * 
 	 */
@@ -295,18 +295,7 @@ public class CourierEntity implements Serializable {
 	public Integer getCityId() {
 		return cityId;
 	}
-	/**
-	 * 设置：
-	 */
-	public void setCreater(Integer creater) {
-		this.creater = creater;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getCreater() {
-		return creater;
-	}
+
 	/**
 	 * 设置：
 	 */
@@ -319,18 +308,23 @@ public class CourierEntity implements Serializable {
 	public Date getCreateDate() {
 		return createDate;
 	}
-	/**
-	 * 设置：
-	 */
-	public void setModify(Integer modify) {
-		this.modify = modify;
+
+	public String getCreater() {
+		return creater;
 	}
-	/**
-	 * 获取：
-	 */
-	public Integer getModify() {
+
+	public void setCreater(String creater) {
+		this.creater = creater;
+	}
+
+	public String getModify() {
 		return modify;
 	}
+
+	public void setModify(String modify) {
+		this.modify = modify;
+	}
+
 	/**
 	 * 设置：
 	 */

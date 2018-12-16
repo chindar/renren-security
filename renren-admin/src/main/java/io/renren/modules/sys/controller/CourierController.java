@@ -1,21 +1,18 @@
 package io.renren.modules.sys.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import io.renren.common.validator.ValidatorUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.renren.modules.sys.entity.CourierEntity;
-import io.renren.modules.sys.service.CourierService;
+import io.renren.common.annotation.SysLog;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.sys.entity.CourierEntity;
+import io.renren.modules.sys.service.CourierService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -38,7 +35,7 @@ public class CourierController {
     @RequestMapping("/list")
     @RequiresPermissions("sys:courier:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = courierService.queryPage(params);
+        PageUtils page = courierService.selectMyPage(params);
 
         return R.ok().put("page", page);
     }
@@ -63,6 +60,18 @@ public class CourierController {
     public R save(@RequestBody CourierEntity courier){
         courierService.insert(courier);
 
+        return R.ok();
+    }
+
+    /**
+     * 导入配送员信息
+     * @param file
+     * @return
+     */
+    @SysLog("导入配送员信息")
+    @PostMapping("/import")
+    public R importCourier(@RequestParam("file") CommonsMultipartFile file) {
+        courierService.importCourier(file);
         return R.ok();
     }
 

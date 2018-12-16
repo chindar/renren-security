@@ -5,9 +5,16 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.sys.entity.CityInfoEntity" id="cityInfoMap">
-                    <result property="id" column="id"/>
-                    <result property="name" column="name"/>
-            </resultMap>
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="getCityNameById" resultType="java.lang.String">
+        SELECT city_name FROM tb_city_info WHERE 1 = 1 id = #{id}
+    </select>
+    <select id="getIdByCityName" resultType="java.lang.Integer">
+        SELECT id FROM tb_city_info WHERE 1 = 1 id = #{cityName}
+    </select>
 
 
 </mapper>
