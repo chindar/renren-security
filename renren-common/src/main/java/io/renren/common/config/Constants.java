@@ -26,7 +26,7 @@ public class Constants {
     //保存文件根目录
     public static String FILE_ROOT="/files";
     //mongoDB地址
-    public static String MONGODB_ADDR="172.16.0.137";
+    public static String MONGODB_ADDR="127.0.0.1";
     //mongoDB用户名
     public static String MONGODB_USER="";
     //mongoDB密码

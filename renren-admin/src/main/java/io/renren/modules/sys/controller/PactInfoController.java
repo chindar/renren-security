@@ -43,6 +43,14 @@ public class PactInfoController {
         return R.ok().put("page", page);
     }
 
+    @RequestMapping("/list2")
+    @RequiresPermissions("sys:pactinfo:list")
+    public R list2(@RequestParam Map<String, Object> params){
+        PageUtils page = pactInfoService.getPactList(params);
+
+        return R.ok().put("page", page);
+    }
+
 
     /**
      * 信息

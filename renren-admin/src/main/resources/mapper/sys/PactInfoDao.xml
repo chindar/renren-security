@@ -5,18 +5,34 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.sys.entity.PactInfoEntity" id="pactInfoMap">
-                    <result property="id" column="id"/>
-                    <result property="name" column="name"/>
-                    <result property="businessName" column="business_name"/>
-                    <result property="cityId" column="city_id"/>
-                    <result property="startDate" column="start_date"/>
-                    <result property="endDate" column="end_date"/>
-                    <result property="createTime" column="create_time"/>
-                    <result property="pactStatus" column="pact_status"/>
-                    <result property="fileId" column="file_id"/>
-                    <result property="fileName" column="file_name"/>
-                    <result property="isDelete" column="is_delete"/>
-            </resultMap>
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="businessName" column="business_name"/>
+            <result property="cityId" column="city_id"/>
+            <result property="startDate" column="start_date"/>
+            <result property="endDate" column="end_date"/>
+            <result property="createTime" column="create_time"/>
+            <result property="pactStatus" column="pact_status"/>
+            <result property="fileId" column="file_id"/>
+            <result property="fileName" column="file_name"/>
+            <result property="isDelete" column="is_delete"/>
+            <result property="cityName" column="cityName"/>
+    </resultMap>
 
+    <select id="getPactList" parameterType="io.renren.modules.sys.entity.PactInfoEntity" resultMap="pactInfoMap">
+        select  a.*,b.`name` as cityName from tb_pact_info a
+        LEFT JOIN tb_city_info b
+        ON a.city_id = b.id
+        where a.is_delete = 0
+        <if test="businessName != null and businessName != ''">
+            and a.business_name = #{businessName}
+        </if>
+        <if test="cityId != null and cityId != ''">
+            and a.city_id = #{cityId}
+        </if>
+        <if test="pactStatus != null and pactStatus != ''">
+            and a.pact_status = #{pactStatus}
+        </if>
+    </select>
 
 </mapper>

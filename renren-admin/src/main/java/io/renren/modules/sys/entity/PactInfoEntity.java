@@ -63,6 +63,18 @@ public class PactInfoEntity implements Serializable {
 	 */
 	private Integer isDelete;
 
+	private String cityName;
+
+
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
 	/**
 	 * 设置：
 	 */

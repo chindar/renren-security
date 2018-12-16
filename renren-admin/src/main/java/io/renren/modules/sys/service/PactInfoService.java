@@ -16,5 +16,7 @@ import java.util.Map;
 public interface PactInfoService extends IService<PactInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils getPactList(Map<String, Object> params);
 }
 
