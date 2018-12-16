@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.PactInfoEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,5 +19,11 @@ public interface PactInfoService extends IService<PactInfoEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     PageUtils getPactList(Map<String, Object> params);
+
+    /**
+     * 获取全部合同信息
+     * @return
+     */
+    List<PactInfoEntity> getAll();
 }
 

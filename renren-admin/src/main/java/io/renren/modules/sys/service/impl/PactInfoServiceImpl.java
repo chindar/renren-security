@@ -51,4 +51,14 @@ public class PactInfoServiceImpl extends ServiceImpl<PactInfoDao, PactInfoEntity
         System.out.println(page.getPages());
         return new PageUtils(page);
     }
+
+    /**
+     * 获取全部合同信息
+     *
+     * @return
+     */
+    @Override
+    public List<PactInfoEntity> getAll() {
+        return dao.getAll();
+    }
 }

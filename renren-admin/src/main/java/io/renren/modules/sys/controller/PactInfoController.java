@@ -1,24 +1,22 @@
 package io.renren.modules.sys.controller;
 
-import java.io.FileInputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import io.renren.common.utils.MongoUtils;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.sys.entity.PactInfoEntity;
+import io.renren.modules.sys.service.PactInfoService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import io.renren.modules.sys.entity.PactInfoEntity;
-import io.renren.modules.sys.service.PactInfoService;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -53,6 +51,15 @@ public class PactInfoController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 获取全部合同信息
+     * @return
+     */
+    @RequestMapping("/all")
+    public R all() {
+        List<PactInfoEntity> pactList = pactInfoService.getAll();
+        return R.ok().put("pactList", pactList);
+    }
 
     /**
      * 信息

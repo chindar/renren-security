@@ -21,4 +21,10 @@ public interface PactInfoDao extends BaseMapper<PactInfoEntity> {
 
 
     List<PactInfoEntity> getPactList(RowBounds var1, PactInfoEntity params);
+
+    /**
+     * 获取全部合同信息
+     * @return
+     */
+    List<PactInfoEntity> getAll();
 }

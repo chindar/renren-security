@@ -34,5 +34,8 @@
             and a.pact_status = #{pactStatus}
         </if>
     </select>
+    <select id="getAll" resultType="io.renren.modules.sys.entity.PactInfoEntity">
+      select  a.id, a.name from tb_pact_info a
+    </select>
 
 </mapper>

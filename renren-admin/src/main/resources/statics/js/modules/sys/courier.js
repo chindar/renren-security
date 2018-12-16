@@ -146,6 +146,27 @@ $(function () {
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
+
+    new AjaxUpload('#upload', {
+        action: baseURL + "sys/oss/upload",
+        name: 'file',
+        autoSubmit:false,
+        responseType:"json",
+        onSubmit:function(file, extension){
+            if (!(extension && /^(xlsx)$/.test(extension.toLowerCase()))){
+                alert('只支持xlsx格式的文件！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                alert(r.url);
+                vm.reload();
+            }else{
+                alert(r.msg);
+            }
+        },
+    });
 });
 
 
@@ -156,6 +177,7 @@ var vm = new Vue({
         showImport: true,
         title: null,
         courier: {},
+        pactId: '',
         pactList: []
     },
     methods: {
@@ -254,13 +276,11 @@ var vm = new Vue({
         getPact: function () {
             $.ajax({
                 type: "GET",
-                url: baseURL + "sys/pactinfo/list",
+                url: baseURL + "sys/pactinfo/all",
                 contentType: "application/json",
                 success: function (r) {
                     if (r.code == 0) {
-                        alert('操作成功', function (index) {
-                            $("#jqGrid").trigger("reloadGrid");
-                        });
+                        vm.pactList = r.pactList;
                     } else {
                         alert(r.msg);
                     }
