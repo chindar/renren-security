@@ -3,17 +3,42 @@
 <head>
     <title>合同信息表</title>
 		<#include "/header.html">
+    <style>
+        .caozuo{
+            color: #00c0ef;
+        }
+    </style>
+    <script src="${request.contextPath}/statics/libs/ajaxupload.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-			<#if shiro.hasPermission("sys:pactinfo:save")>
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="q.businessName" @keyup.enter="query" placeholder="业务名称">
+            </div>
+            <div class="form-group col-sm-2">
+                <select class="form-control" v-model="q.pactStatus" placeholder="请选择合同状态">
+                    <option value="" >请选择合同状态</option>
+                    <option value="0" >无效</option>
+                    <option value="1" >已生效</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-2">
+                <select class="form-control" v-model="q.cityId" placeholder="请选择城市">
+                    <option value="" >请选择城市</option>
+                    <option  v-for="city in citylist"  :value="city.id" >{{city.name}}</option>
+                </select>
+            </div>
+            <a class="btn btn-default" @click="query">查询</a>
+
+
+            <#if shiro.hasPermission("sys:pactinfo:save")>
             <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
 			</#if>
-			<#if shiro.hasPermission("sys:pactinfo:update")>
-            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			</#if>
+			<!--<#if shiro.hasPermission("sys:pactinfo:update")>-->
+            <!--<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
+			<!--</#if>-->
 			<#if shiro.hasPermission("sys:pactinfo:delete")>
             <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 			</#if>
@@ -25,75 +50,88 @@
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">{{title}}</div>
         <form class="form-horizontal">
-														                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">业务名称</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.name" placeholder=""/>
+                            <input type="text" class="form-control" v-model="pactInfo.name" placeholder="业务名称"/>
                         </div>
                     </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">合同名称</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.businessName" placeholder=""/>
+                            <input type="text" class="form-control" v-model="pactInfo.businessName" placeholder="合同名称"/>
                         </div>
                     </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
+                    <div class="form-group">
+                        <div class="col-sm-2 control-label">城市</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.cityId" placeholder=""/>
+                            <select class="form-control" v-model="pactInfo.cityId" placeholder="选择城市">
+                                <option  v-for="city in citylist"  :value="city.id" >{{city.name}}</option>
+                            </select>
+                            <!--<input type="text" class="form-control" v-model="pactInfo.cityId" placeholder="选择城市" @click="chooseCity" readonly="readonly"/>-->
                         </div>
                     </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">起始日期</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.startDate" placeholder=""/>
+                            <input type="date" class="form-control" v-model="pactInfo.startDate"  placeholder="起始日期"/>
+                            <!--<input type="text" class="form-control" v-model="pactInfo.startDate" placeholder="起始日期"/>-->
                         </div>
                     </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">终止日期</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.endDate" placeholder=""/>
+                            <input type="date" class="form-control" v-model="pactInfo.endDate"  placeholder="终止日期"/>
+                            <!--<input type="text" class="form-control" v-model="pactInfo.endDate" placeholder="终止日期"/>-->
                         </div>
                     </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
+					<!--<div class="form-group">-->
+                        <!--<div class="col-sm-2 control-label">创建时间</div>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text" class="form-control" v-model="pactInfo.createTime" placeholder=""/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">状态</div>
+                        <label class="radio-inline">
+                            <input type="radio" name="pactStatus" value="0" v-model="pactInfo.pactstatus"/> 无效
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="pactStatus" value="1" v-model="pactInfo.pactStatus"/> 已生效
+                        </label>
+                    </div>
+
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">合同文件</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.createTime" placeholder=""/>
+                            <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;上传文件</a>
+                            <!--<input type="text" class="form-control" v-model="pactInfo.fileId" placeholder=""/>-->
                         </div>
                     </div>
-											                    <div class="form-group">
+					<!--<div class="form-group">-->
+                        <!--<div class="col-sm-2 control-label"></div>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text" class="form-control" v-model="pactInfo.fileName" placeholder=""/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+					<!--<div class="form-group">-->
+                        <!--<div class="col-sm-2 control-label"></div>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text" class="form-control" v-model="pactInfo.isDelete" placeholder=""/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+					<div class="form-group">
                         <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.pactStatus" placeholder=""/>
-                        </div>
+                        <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                        &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
                     </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.fileId" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.fileName" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.isDelete" placeholder=""/>
-                        </div>
-                    </div>
-							            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
-                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
-            </div>
         </form>
     </div>
 </div>
-
+<!-- 选择部门 -->
+<div id="deptLayer" style="display: none;padding:10px;">
+    <ul id="deptTree" class="ztree"></ul>
+</div>
 <script src="${request.contextPath}/statics/js/modules/sys/pactinfo.js?_${.now?long}"></script>
 </body>
 </html>

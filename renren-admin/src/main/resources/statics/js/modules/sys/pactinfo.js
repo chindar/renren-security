@@ -1,75 +1,84 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'sys/pactinfo/list',
+        url: baseURL + 'sys/pactinfo/list2',
         datatype: "json",
         colModel: [
-                                                {
-                        label: 'id',
-                        name: 'id',
-                        index: 'id',
-                        width: 50,
-                        key: true
-                    },
+                    //                             {
+                    //     label: 'id',
+                    //     name: 'id',
+                    //     index: 'id',
+                    //     width: 50,
+                    //     key: true
+                    // },
                                                                 {
-                        label: '',
+                        label: '合同名称',
                         name: 'name',
                         index: 'name',
                         width: 80
                     }, 
                                                                 {
-                        label: '',
+                        label: '业务',
                         name: 'businessName',
                         index: 'business_name',
                         width: 80
                     }, 
                                                                 {
-                        label: '',
-                        name: 'cityId',
-                        index: 'city_id',
+                        label: '城市',
+                        name: 'cityName',
+                        index: 'city_name',
                         width: 80
                     }, 
                                                                 {
-                        label: '',
+                        label: '起始日期',
                         name: 'startDate',
                         index: 'start_date',
                         width: 80
                     }, 
                                                                 {
-                        label: '',
+                        label: '终止日期',
                         name: 'endDate',
                         index: 'end_date',
                         width: 80
                     }, 
                                                                 {
-                        label: '',
+                        label: '创建时间',
                         name: 'createTime',
                         index: 'create_time',
                         width: 80
                     }, 
                                                                 {
-                        label: '',
+                        label: '状态',
                         name: 'pactStatus',
                         index: 'pact_status',
-                        width: 80
+                        width: 80,
+                        formatter: function(value, options, row){
+                            return value === 0 ?
+                                '<span class="label label-danger">无效</span>' :
+                                '<span class="label label-success">已生效</span>';
+                        }
                     }, 
                                                                 {
-                        label: '',
+                        label: '操作',
                         name: 'fileId',
                         index: 'file_id',
-                        width: 80
-                    }, 
-                                                                {
-                        label: '',
-                        name: 'fileName',
-                        index: 'file_name',
-                        width: 80
-                    }, 
-                                                                {
-                        label: '',
-                        name: 'isDelete',
-                        index: 'is_delete',
-                        width: 80
+                        width: 80,
+                        formatter: function(value, options, row){
+                            return '<a class="caozuo" href="/renren-admin/statics/StudentTemplate.xls">合同</a>&nbsp;&nbsp;<a class="caozuo">人员</a>';
+                        }
                     }
+                    // ,
+                    //                                             {
+                    //     label: '',
+                    //     name: 'fileName',
+                    //     index: 'file_name',
+                    //     width: 80
+                    // },
+                    //                                             {
+                    //     label: '',
+                    //     name: 'isDelete',
+                    //     index: 'is_delete',
+                    //     width: 80
+                    // }
                             ],
         viewrecords: true,
         height: 385,
@@ -96,6 +105,48 @@ $(function () {
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
+    $.ajax({
+        type: "POST",
+        url: baseURL + "sys/cityinfo/list",
+        contentType: "application/json",
+        // data: JSON.stringify(ids),
+        success: function (r) {
+            if (r.code == 0) {
+                // alert('操作成功', function (index) {
+                //     $("#jqGrid").trigger("reloadGrid");
+                // });
+                vm.citylist = r.page.list
+            } else {
+                alert(r.msg);
+            }
+        }
+    });
+    new AjaxUpload('#upload', {
+        action: baseURL + "sys/pactinfo/upload",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        onSubmit:function(file, extension){
+            // if(vm.config.type == null){
+            //     alert("云存储配置未配置");
+            //     return false;
+            // }
+            if (!(extension && /^(pdf)$/.test(extension.toLowerCase()))){
+                alert('只支持pdf格式的合同文件！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                // alert(r.url);
+                vm.pactInfo.fileId = r.data.fileId
+                vm.pactInfo.fileName = r.data.fileName
+                // vm.reload();
+            }else{
+                alert(r.msg);
+            }
+        }
+    });
 });
 
 var vm = new Vue({
@@ -103,9 +154,15 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
-pactInfo: {
-}
-},
+        pactInfo: {
+        },
+        q:{
+            businessName: null,
+            cityId:'',
+            pactStatus:''
+        },
+        citylist:[]
+    },
 methods: {
     query: function () {
         vm.reload();
@@ -133,7 +190,7 @@ methods: {
 ,
     saveOrUpdate: function (event) {
         var url = vm
-    .pactInfo.id ==
+        .pactInfo.id ==
         null ? "sys/pactinfo/save" : "sys/pactinfo/update";
         $.ajax({
             type: "POST",
@@ -187,8 +244,10 @@ methods: {
         vm.showList = true;
         var page = $("#jqGrid").jqGrid('getGridParam', 'page');
         $("#jqGrid").jqGrid('setGridParam', {
+            postData:{'businessName': vm.q.businessName,'cityId':vm.q.cityId,'pactStatus':vm.q.pactStatus},
             page: page
         }).trigger("reloadGrid");
-    }
+
+    },
 }
 });

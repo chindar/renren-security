@@ -402,7 +402,7 @@ public class MongoUtils {
         mongofile.save();
     }
 
-    public void saveFile(InputStream in, String filename,String fileid,String dbName){
+    public void saveFile(InputStream in, String fileid,String filename,String dbName){
         GridFS f = new GridFS(db, dbName);
         GridFSFile mongofile = f.createFile(in, filename);
         mongofile.put("fileId", fileid);

@@ -61,7 +61,7 @@ public class TestController {
 //    }
     public static void main(String[] args) throws IOException {
 
-        File file = new File("E:/StudentTemplate.xls");
+        File file = new File("F:/leng/222.doc");
         String fileId="123456";
         MongoUtils mongo=new MongoUtils();
         // 保存文件到mongodb,以指标id作为文件的唯一标识

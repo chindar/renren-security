@@ -37,11 +37,11 @@ public class PactInfoEntity implements Serializable {
 	/**
 	 * 
 	 */
-	private Date startDate;
+	private String startDate;
 	/**
 	 * 
 	 */
-	private Date endDate;
+	private String endDate;
 	/**
 	 * 
 	 */
@@ -126,25 +126,25 @@ public class PactInfoEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 	/**
 	 * 获取：
 	 */
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 	/**
 	 * 设置：
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	/**
 	 * 获取：
 	 */
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 	/**

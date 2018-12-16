@@ -30,7 +30,7 @@
         <if test="cityId != null and cityId != ''">
             and a.city_id = #{cityId}
         </if>
-        <if test="pactStatus != null and pactStatus != ''">
+        <if test="(pactStatus != null and pactStatus != '') or pactStatus == 0">
             and a.pact_status = #{pactStatus}
         </if>
     </select>

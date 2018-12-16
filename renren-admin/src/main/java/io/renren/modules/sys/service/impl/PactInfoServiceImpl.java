@@ -38,11 +38,11 @@ public class PactInfoServiceImpl extends ServiceImpl<PactInfoDao, PactInfoEntity
     public PageUtils getPactList(Map<String, Object> params) {
         PactInfoEntity entity = new PactInfoEntity();
         Page page = new Query<PactInfoEntity>(params).getPage();
-        if (Tools.notEmpty(params.get("businessName").toString()))
+        if (params.get("businessName") != null && Tools.notEmpty(params.get("businessName").toString()))
             entity.setBusinessName(params.get("businessName").toString());
-        if (Tools.notEmpty(params.get("cityId").toString()))
+        if (params.get("businessName") != null && Tools.notEmpty(params.get("cityId").toString()))
             entity.setCityId(Integer.valueOf(params.get("cityId").toString()));
-        if (Tools.notEmpty(params.get("pactStatus").toString()))
+        if (params.get("businessName") != null && Tools.notEmpty(params.get("pactStatus").toString()))
             entity.setPactStatus(Integer.valueOf(params.get("pactStatus").toString()));
         List<PactInfoEntity> list = dao.getPactList(page,entity);
         page.setRecords(list);
