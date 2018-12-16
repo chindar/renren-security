@@ -54,7 +54,7 @@
         <result property="isDelete" column="is_delete"/>
     </resultMap>
 
-    <select id="selectMyPage" resultMap="courierVoMap">
+    <select id="selectMyPage" parameterType="io.renren.modules.sys.vo.CourierVo" resultMap="courierVoMap">
       SELECT
         a.id
         , a.courier_name
@@ -82,6 +82,14 @@
       FROM tb_courier a
       LEFT JOIN tb_pact_info b on a.pact_id = b.id
       LEFT JOIN tb_city_info c on a.city_id = c.id
+      WHERE 1 = 1
+        AND a.is_delete = 0
+      <if test="courierName != null and courierName != ''">
+        AND a.courier_name = #{courierName}
+      </if>
+      <if test="cardId != null and cardId != ''">
+        AND a.card_id = #{cardId}
+      </if>
     </select>
 
 

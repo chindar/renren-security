@@ -1,12 +1,11 @@
 package io.renren.modules.sys.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.SqlHelper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import io.renren.common.utils.PageUtils;
@@ -69,9 +68,8 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
 
     public PageUtils selectMyPage(Map<String, Object> params) {
         Page<CourierVo> page = new Query<CourierVo>(params).getPage();
-        Wrapper<CourierVo> wrapper = new EntityWrapper<CourierVo>();
-        wrapper = (Wrapper<CourierVo>) SqlHelper.fillWrapper(page,  wrapper);
-        page.setRecords(courierDao.selectMyPage(page, wrapper));
+        CourierVo courierVo = BeanUtil.mapToBean(params, CourierVo.class, true);
+        page.setRecords(courierDao.selectMyPage(page, courierVo));
         return new PageUtils(page);
     }
 

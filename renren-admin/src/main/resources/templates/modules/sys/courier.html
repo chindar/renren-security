@@ -9,42 +9,37 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            <div class="form-group col-sm-2">
-                <input type="text" class="form-control" v-model="courier.courierName" @keyup.enter="query"
+            <div class="form-group col-md-2">
+                <select class="form-control" v-model="keyword" id="keyword" name="keyword" placeholder="请选择关键字类型">
+                    <option value="0">配送员姓名</option>
+                    <option value="1">配送员身份证号</option>
+                    <option value="2">配送员电话</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" class="form-control" v-model="q.name" @keyup.enter="query"
                        placeholder="输入关键字">
             </div>
-            <!--<a class="btn btn-default" @click="query">查询</a>-->
+
+            <div class="form-group col-md-2">
+                <select class="form-control" v-model="pactId" id="pactId" name="pactId" placeholder="请选择合同">
+                    <option v-for="pact in pactList" v-bind:value="pact.id" v-bind:key="pact.id">
+                        {{ pact.name }}
+                    </option>
+                </select>
+            </div>
+
             <!--<#if shiro.hasPermission("sys:courier:save")>-->
-            <!--<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>-->
+                <!--<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>-->
             <!--</#if>-->
             <!--<#if shiro.hasPermission("sys:courier:update")>-->
-            <!--<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
+                <!--<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
             <!--</#if>-->
-            <!--<#if shiro.hasPermission("sys:courier:delete")>-->
-            <!--<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>-->
-            <!--</#if>-->
-            <div class="form-group col-sm-2">
-                <select class="form-control" v-model="pactId" id="pactIds" name="pactIds" placeholder="请选择合同">
-                    <option value=""></option>
-                    <option v-for="pact in pactList" v-bind:value="pact.id" v-bind:key="pact.id">
-                        {{ pact.name }}
-                    </option>
-                </select>
-            </div>
-            <div class="form-group col-sm-2">
-                <select class="form-control" id="key" name="key" placeholder="请选择合同">
-                    <option value=""></option>
-                    <option v-for="pact in pactList" v-bind:value="pact.id" v-bind:key="pact.id">
-                        {{ pact.name }}
-                    </option>
-                </select>
-            </div>
-            <div class="form-group col-sm-2">
-                <a class="btn btn-primary" @click="query"><i class="fa fa-plus"></i>&nbsp;搜索</a>
-            </div>
-            <div class="form-group col-sm-2">
-                <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;录入配送员</a>
-            </div>
+            <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;录入配送员</a>
+            <#if shiro.hasPermission("sys:courier:delete")>
+                <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+            </#if>
+            <a class="btn btn-default" @click="query">搜索</a>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>

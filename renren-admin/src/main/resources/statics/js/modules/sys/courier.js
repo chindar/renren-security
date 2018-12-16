@@ -174,10 +174,13 @@ var vm = new Vue({
     el: '#rrapp',
     data: {
         showList: true,
-        showImport: true,
         title: null,
+        keyword: 0,
+        q: {
+            name: null
+        },
         courier: {},
-        pactId: '',
+        pactId: '请选择合同',
         pactList: []
     },
     methods: {
@@ -252,20 +255,26 @@ var vm = new Vue({
         reload: function (event) {
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
-            $("#jqGrid").jqGrid('setGridParam', {
-                page: page
-            }).trigger("reloadGrid");
-        },
-
-        /**********************************************************************
-         * 弹出导入信息框体
-         * @author Wang Chinda
-         **********************************************************************/
-        importPage: function () {
-            vm.showList = false;
-            vm.showImport = false;
-            vm.title = "导入";
-            vm.getPact();
+            if(vm.keyword == 0) {
+                $("#jqGrid").jqGrid('setGridParam', {
+                    postData:{"courierName": vm.q.name},
+                    page: page
+                }).trigger("reloadGrid");
+            } else if (vm.keyword == 1) {
+                $("#jqGrid").jqGrid('setGridParam', {
+                    postData:{"cardId": vm.q.name},
+                    page: page
+                }).trigger("reloadGrid");
+            } else if (vm.keyword == 2) {
+                $("#jqGrid").jqGrid('setGridParam', {
+                    postData:{"phone": vm.q.name},
+                    page: page
+                }).trigger("reloadGrid");
+            } else {
+                $("#jqGrid").jqGrid('setGridParam', {
+                    page: page
+                }).trigger("reloadGrid");
+            }
 
         },
 
@@ -306,5 +315,9 @@ var vm = new Vue({
                 return true;
             }
         }
+    },
+
+    created: function () {
+        this.getPact();
     }
 });
