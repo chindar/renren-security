@@ -60,7 +60,7 @@ public class CourierVo implements Serializable {
     /**
      * 1:已绑定第三方 0:未绑定第三方
      */
-    private String status;
+    private Integer status;
     /**
      *
      */
@@ -219,11 +219,11 @@ public class CourierVo implements Serializable {
         return leaveDate;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

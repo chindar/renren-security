@@ -37,7 +37,12 @@ $(function () {
                 label: '状态',
                 name: 'status',
                 index: 'status',
-                width: 80
+                width: 80,
+                formatter: function(value, options, row){
+                    return value === 0 ?
+                        '<span class="label label-danger">未绑定第三方</span>' :
+                        '<span class="label label-success">已绑定第三方</span>';
+                }
             },
             // {
             //     label: '银行卡号',
@@ -148,13 +153,13 @@ $(function () {
     });
 
     new AjaxUpload('#upload', {
-        action: baseURL + "sys/oss/upload",
+        action: baseURL + "sys/courier/import",
         name: 'file',
-        autoSubmit:false,
+        autoSubmit:true,
         responseType:"json",
         onSubmit:function(file, extension){
-            if (!(extension && /^(xlsx)$/.test(extension.toLowerCase()))){
-                alert('只支持xlsx格式的文件！');
+            if (!(extension && /^(xlsx|xls)$/.test(extension.toLowerCase()))){
+                alert('只支持xlsx|xls格式的文件！');
                 return false;
             }
         },

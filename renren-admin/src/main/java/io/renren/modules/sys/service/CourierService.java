@@ -3,7 +3,7 @@ package io.renren.modules.sys.service;
 import com.baomidou.mybatisplus.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.CourierEntity;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -22,7 +22,7 @@ public interface CourierService extends IService<CourierEntity> {
      * 上传文件
      * @param file
      */
-    void importCourier(CommonsMultipartFile file);
+    void importCourier(MultipartFile file);
 
     PageUtils selectMyPage(Map<String, Object> params);
 
