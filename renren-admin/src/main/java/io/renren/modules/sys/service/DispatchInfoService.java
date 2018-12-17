@@ -16,5 +16,9 @@ import java.util.Map;
 public interface DispatchInfoService extends IService<DispatchInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils getDispatchList(Map<String, Object> params);
+
+    int importData(DispatchInfoEntity entity);
 }
 

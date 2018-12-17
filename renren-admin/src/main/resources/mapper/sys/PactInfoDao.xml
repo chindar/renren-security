@@ -25,7 +25,7 @@
         ON a.city_id = b.id
         where a.is_delete = 0
         <if test="businessName != null and businessName != ''">
-            and a.business_name = #{businessName}
+            and a.business_name like CONCAT('%',ltrim(rtrim(#{businessName})),'%')
         </if>
         <if test="cityId != null and cityId != ''">
             and a.city_id = #{cityId}
