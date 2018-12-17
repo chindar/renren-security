@@ -1,106 +1,101 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'sys/dispatchinfo/list',
+        url: baseURL + 'sys/dispatchinfo/list2',
         datatype: "json",
         colModel: [
-                                                {
-                        label: 'id',
-                        name: 'id',
-                        index: 'id',
-                        width: 50,
-                        key: true
-                    },
-                                                                {
+                    // {
+                    //     label: 'id',
+                    //     name: 'id',
+                    //     index: 'id',
+                    //     width: 50,
+                    //     key: true
+                    // },
+                    {
                         label: '月份',
                         name: 'month',
                         index: 'month',
                         width: 80
-                    }, 
-                                                                {
-                        label: '快递员id',
-                        name: 'courierId',
-                        index: 'courier_id',
+                    },{
+                        label: '片区',
+                        name: 'area',
+                        index: 'area',
+                        width: 80
+                    },{
+                        label: '城市',
+                        name: 'cityName',
+                        index: 'city_name',
+                        width: 80
+                    },{
+                        label: '站点',
+                        name: 'site',
+                        index: 'site',
+                        width: 80
+                    },{
+                        label: 'erp账号',
+                        name: 'erpId',
+                        index: 'erp_id',
+                        width: 80
+                    },
+                    {
+                        label: '配送员姓名',
+                        name: 'courierName',
+                        index: 'courier_name',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
+                    {
+                        label: '总单量',
                         name: 'allOrderTotal',
                         index: 'all_order_total',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
+                    {
+                        label: '合计单量',
                         name: 'countOrderTotal',
                         index: 'count_order_total',
                         width: 80
                     }, 
-                                                                {
+                    {
                         label: '大件',
                         name: 'large',
                         index: 'large',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
+                    {
+                        label: '小件',
                         name: 'small',
                         index: 'small',
                         width: 80
                     }, 
-                                                                {
+                    {
                         label: '三同',
                         name: 'thrIdentical',
                         index: 'thr_identical',
                         width: 80
                     }, 
-                                                                {
+                    {
                         label: '售后取件',
                         name: 'afterSale',
                         index: 'after_sale',
                         width: 80
                     }, 
-                                                                {
+                    {
                         label: '商家接货',
                         name: 'sellerPick',
                         index: 'seller_pick',
                         width: 80
                     }, 
-                                                                {
+                    {
                         label: '工资',
                         name: 'salary',
                         index: 'salary',
                         width: 80
-                    }, 
-                                                                {
-                        label: '',
-                        name: 'creater',
-                        index: 'creater',
-                        width: 80
-                    }, 
-                                                                {
-                        label: '',
-                        name: 'createDate',
-                        index: 'create_date',
-                        width: 80
-                    }, 
-                                                                {
-                        label: '',
-                        name: 'modify',
-                        index: 'modify',
-                        width: 80
-                    }, 
-                                                                {
-                        label: '',
-                        name: 'modifyDate',
-                        index: 'modify_date',
-                        width: 80
-                    }, 
-                                                                {
-                        label: '1:删除0：正常',
-                        name: 'isDelete',
-                        index: 'is_delete',
+                    },{
+                        label: '扣款',
+                        name: 'deductMoney',
+                        index: 'deduct_money',
                         width: 80
                     }
-                            ],
+                    ],
         viewrecords: true,
         height: 385,
         rowNum: 10,
@@ -126,6 +121,26 @@ $(function () {
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
+    new AjaxUpload('#upload', {
+        action: baseURL + "sys/dispatchinfo/importdata",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        onSubmit:function(file, extension){
+            if (!(extension && /^(xls|xlsx)$/.test(extension.toLowerCase()))){
+                alert('只支持导入excel格式的文件！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                console.log(r)
+                vm.reload();
+            }else{
+                alert(r.msg);
+            }
+        }
+    });
 });
 
 var vm = new Vue({
@@ -133,20 +148,32 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
-dispatchInfo: {
-}
+        dispatchInfo: {
+        },
+        q:{
+            courierName: null,
+            month:null
+        }
 },
 methods: {
     query: function () {
         vm.reload();
-    }
-,
+    },
+    //下载模板
+    down: function () {
+        location.href = encodeURI("/renren-admin/statics/快递员配送数据导入模板.xls");
+    },
+    importFile: function () {
+        console.info("@@@@@@@@@@")
+    },
+    exportFile: function () {
+        console.info("%%%%%%%%%%")
+    },
     add: function () {
         vm.showList = false;
         vm.title = "新增";
         vm.dispatchInfo = {};
-    }
-,
+    },
     update: function (event) {
         var id =
         getSelectedRow();
@@ -159,8 +186,7 @@ methods: {
         vm.title = "修改";
 
         vm.getInfo(id)
-    }
-,
+    },
     saveOrUpdate: function (event) {
         var url = vm
     .dispatchInfo.id ==
@@ -214,9 +240,11 @@ methods: {
     }
 ,
     reload: function (event) {
+        console.log(vm.q)
         vm.showList = true;
         var page = $("#jqGrid").jqGrid('getGridParam', 'page');
         $("#jqGrid").jqGrid('setGridParam', {
+            postData:{'courierName': vm.q.courierName,'month':vm.q.month},
             page: page
         }).trigger("reloadGrid");
     }

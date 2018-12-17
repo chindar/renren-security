@@ -65,7 +65,7 @@
         , a.join_bank_number
         , a.entry_date
         , a.leave_date
-        , CASE WHEN a.`status` = 1 THEN '已绑定第三方' ELSE '未绑定第三方' END AS `status`
+        , a.`status`
         , a.comment
         , a.erp_id
         , a.area

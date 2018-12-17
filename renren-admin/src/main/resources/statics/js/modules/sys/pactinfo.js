@@ -189,6 +189,7 @@ methods: {
     }
 ,
     saveOrUpdate: function (event) {
+        console.info(vm.pactInfo)
         var url = vm
         .pactInfo.id ==
         null ? "sys/pactinfo/save" : "sys/pactinfo/update";

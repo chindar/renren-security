@@ -4,6 +4,7 @@ import io.renren.common.utils.MongoUtils;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.sys.entity.PactInfoEntity;
 import io.renren.modules.sys.service.PactInfoService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -78,6 +79,7 @@ public class PactInfoController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:pactinfo:save")
     public R save(@RequestBody PactInfoEntity pactInfo){
+        ValidatorUtils.validateEntity(pactInfo, UpdateGroup.class);
         pactInfoService.insert(pactInfo);
 
         return R.ok();

@@ -83,8 +83,80 @@ public class DispatchInfoEntity implements Serializable {
 	 * 1:删除0：正常
 	 */
 	private Integer isDelete;
+    /**
+     * 扣款
+     */
+	private BigDecimal deductMoney;
 
-	/**
+	private String cityName;
+
+	private String area;
+
+	private String site;
+
+	private String courierName;
+
+	private String erpId;
+
+	private String remark;
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getErpId() {
+		return erpId;
+	}
+
+	public void setErpId(String erpId) {
+		this.erpId = erpId;
+	}
+
+	public String getCourierName() {
+		return courierName;
+	}
+
+	public void setCourierName(String courierName) {
+		this.courierName = courierName;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public String getSite() {
+		return site;
+	}
+
+	public void setSite(String site) {
+		this.site = site;
+	}
+
+	public BigDecimal getDeductMoney() {
+        return deductMoney;
+    }
+
+    public void setDeductMoney(BigDecimal deductMoney) {
+        this.deductMoney = deductMoney;
+    }
+
+    /**
 	 * 设置：
 	 */
 	public void setId(Integer id) {
