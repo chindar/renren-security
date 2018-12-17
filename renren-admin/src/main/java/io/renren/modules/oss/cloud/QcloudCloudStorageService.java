@@ -47,12 +47,12 @@ public class QcloudCloudStorageService extends CloudStorageService {
     private void init(){
     	Credentials credentials = new Credentials(config.getQcloudAppId(), config.getQcloudSecretId(),
                 config.getQcloudSecretKey());
-    	
+
     	//初始化客户端配置
         ClientConfig clientConfig = new ClientConfig();
         //设置bucket所在的区域，华南：gz 华北：tj 华东：sh
         clientConfig.setRegion(config.getQcloudRegion());
-        
+
     	client = new COSClient(clientConfig, credentials);
     }
 
@@ -62,7 +62,7 @@ public class QcloudCloudStorageService extends CloudStorageService {
         if(!path.startsWith("/")) {
             path = "/" + path;
         }
-        
+
         //上传到腾讯云
         UploadFileRequest request = new UploadFileRequest(config.getQcloudBucketName(), path, data);
         String response = client.uploadFile(request);
