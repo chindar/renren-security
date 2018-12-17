@@ -17,7 +17,7 @@ import io.renren.modules.sys.service.CourierService;
 import io.renren.modules.sys.vo.CourierVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,7 +79,7 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
      * @param multipartFile
      */
     @Override
-    public void importCourier(CommonsMultipartFile multipartFile) {
+    public void importCourier(MultipartFile multipartFile) {
         try {
             InputStream is = multipartFile.getInputStream();
             String filename = multipartFile.getOriginalFilename();

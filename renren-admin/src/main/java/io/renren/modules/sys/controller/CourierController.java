@@ -9,7 +9,7 @@ import io.renren.modules.sys.service.CourierService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -70,7 +70,7 @@ public class CourierController {
      */
     @SysLog("导入配送员信息")
     @PostMapping("/import")
-    public R importCourier(@RequestParam("file") CommonsMultipartFile file) {
+    public R importCourier(@RequestParam("file") MultipartFile file) {
         courierService.importCourier(file);
         return R.ok();
     }
