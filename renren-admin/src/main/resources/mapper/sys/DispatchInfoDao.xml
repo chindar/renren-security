@@ -72,7 +72,7 @@
 
     <!--查询配送员信息-->
     <select id="getCourierInfo" resultMap="courierMap">
-        select  from  tb_courier where courier_name = #{courierName} and erp_id = #{erpId}
+        select * from  tb_courier where courier_name = #{courierName} and erp_id = #{erpId}
     </select>
 
     <!--插入数据信息-->

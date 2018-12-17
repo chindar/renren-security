@@ -161,7 +161,7 @@ methods: {
     },
     //下载模板
     down: function () {
-        location.href = encodeURI("/renren-admin/statics/快递员配送数据导入模板.xlsx");
+        location.href = encodeURI("/renren-admin/statics/快递员配送数据导入模板.xls");
     },
     importFile: function () {
         console.info("@@@@@@@@@@")

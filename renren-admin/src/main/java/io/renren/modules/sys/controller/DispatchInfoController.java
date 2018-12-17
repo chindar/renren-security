@@ -5,12 +5,14 @@ import java.util.*;
 
 import com.alibaba.fastjson.JSONObject;
 import io.renren.common.utils.MongoUtils;
+import io.renren.common.utils.POIUtils;
 import io.renren.common.validator.ValidatorUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -84,7 +86,7 @@ public class DispatchInfoController {
 //                mongo.saveFile(file.getInputStream(),fileId,file.getOriginalFilename(),"pact");
 //                result.put("fileId",fileId);
 //                result.put("fileName",file.getOriginalFilename());
-                Workbook book = new HSSFWorkbook(file.getInputStream());
+                XSSFWorkbook book = new XSSFWorkbook(file.getInputStream());
                 //定一个list？
                 List<JSONObject> list = new ArrayList<>();
                 //获取一个sheet也就是一个工作簿
