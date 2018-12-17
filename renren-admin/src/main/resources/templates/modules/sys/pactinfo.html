@@ -51,15 +51,15 @@
         <div class="panel-heading">{{title}}</div>
         <form class="form-horizontal">
 					<div class="form-group">
-                        <div class="col-sm-2 control-label">业务名称</div>
+                        <div class="col-sm-2 control-label">合同名称</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.name" placeholder="业务名称"/>
+                            <input type="text" class="form-control" v-model="pactInfo.name" placeholder="合同名称"/>
                         </div>
                     </div>
 					<div class="form-group">
-                        <div class="col-sm-2 control-label">合同名称</div>
+                        <div class="col-sm-2 control-label">业务名称</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="pactInfo.businessName" placeholder="合同名称"/>
+                            <input type="text" class="form-control" v-model="pactInfo.businessName" placeholder="业务名称"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -94,7 +94,7 @@
 					<div class="form-group">
                         <div class="col-sm-2 control-label">状态</div>
                         <label class="radio-inline">
-                            <input type="radio" name="pactStatus" value="0" v-model="pactInfo.pactstatus"/> 无效
+                            <input type="radio" name="pactStatus" value="0" v-model="pactInfo.pactStatus"/> 无效
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="pactStatus" value="1" v-model="pactInfo.pactStatus"/> 已生效

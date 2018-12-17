@@ -2,7 +2,11 @@ package io.renren.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,22 +29,27 @@ public class PactInfoEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@NotBlank(message="合同名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String name;
 	/**
 	 * 
 	 */
+	@NotBlank(message="业务名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String businessName;
 	/**
 	 * 
 	 */
+	@NotNull(message="城市不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private Integer cityId;
 	/**
 	 * 
 	 */
+	@NotBlank(message="起始日期不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String startDate;
 	/**
 	 * 
 	 */
+	@NotBlank(message="终止日期不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String endDate;
 	/**
 	 * 
@@ -49,10 +58,12 @@ public class PactInfoEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@NotNull(message="合同状态不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private Integer pactStatus;
 	/**
 	 * 
 	 */
+	@NotBlank(message="合同文件不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String fileId;
 	/**
 	 * 
