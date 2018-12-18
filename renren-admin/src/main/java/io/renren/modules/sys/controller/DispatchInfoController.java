@@ -1,18 +1,19 @@
 package io.renren.modules.sys.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.*;
 
 import com.alibaba.fastjson.JSONObject;
-import io.renren.common.utils.MongoUtils;
-import io.renren.common.utils.POIUtils;
+import io.renren.common.utils.*;
 import io.renren.common.validator.ValidatorUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.renren.modules.sys.entity.DispatchInfoEntity;
 import io.renren.modules.sys.service.DispatchInfoService;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -139,6 +139,244 @@ public class DispatchInfoController {
             return R.error(e.getMessage());
         }
         return R.ok().put("data",result);
+    }
+
+    /**
+     * 导出模板
+     * @param request
+     * @param response
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping("/exportdata")
+    public void exportdata(HttpServletRequest request, HttpServletResponse response,
+                           @RequestParam(value="id",defaultValue = "") String id
+			) throws Exception {
+        String[] arr = id.split(",");
+        Integer[] ids = new Integer[arr.length];
+        for(int i=0;i<arr.length;i++) {
+            ids[i]=Integer.parseInt(arr[i]);
+        }
+        List<DispatchInfoEntity> dispatchlist = dispatchInfoService.getExportData(ids);
+        // 第一步，创建一个webbook，对应一个Excel文件
+        XSSFWorkbook wb = new XSSFWorkbook();
+        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
+        XSSFSheet sheet = wb.createSheet("配送员配送数据");
+
+        // 设置所有单元格大小 -- 宽度
+        sheet.setDefaultColumnWidth(14);
+        // 设置所有单元格大小 -- 高度
+        sheet.setDefaultRowHeightInPoints(14);
+        //        sheet.createFreezePane(0, 2, 0, 2);
+        /**
+         * 样式设置
+         * 1.所有字体为Arial格式
+         * 2.所有表头部分字体大小为14号，其他部分为11号
+         */
+        // 1.表头样式,蓝色14号字体,加粗,
+        XSSFCellStyle styleTitle = wb.createCellStyle();
+        // 居中
+        styleTitle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        styleTitle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        XSSFFont font = wb.createFont();
+        // 字体颜色
+        //        font.setColor(HSSFColor.SKY_BLUE.index);//HSSFColor.VIOLET.index //字体颜色
+        // 字体大小
+        font.setFontHeightInPoints((short)14);
+        //字体格式
+        font.setFontName("Arial");
+        // 字体增粗
+        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        styleTitle.setFont(font);
+        /**
+         * 表格内容样式设置
+         * 1.表头样式
+         * 2.表格内容样式
+         */
+        // 1.表头样式
+        // 设置居中样式
+        XSSFCellStyle styleContentTitle = wb.createCellStyle();
+        styleContentTitle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        styleContentTitle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        // 字体大小
+        XSSFFont fontContentTitle = wb.createFont();
+        fontContentTitle.setFontHeightInPoints((short) 11);
+        // 字体增粗
+        fontContentTitle.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        styleContentTitle.setFont(fontContentTitle);
+
+        // 2.表格内容样式
+        // 设置居中样式
+        XSSFCellStyle styleContent = wb.createCellStyle();
+        styleContent.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        styleContent.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        // 设置自动换行
+        styleContent.setWrapText(true);
+        // 字体大小
+        XSSFFont fontContent = wb.createFont();
+        fontContent.setFontHeightInPoints((short) 11);
+        styleContent.setFont(fontContent);
+
+        /**
+         * 数据表内容
+         */
+        // 添加表头标题
+        XSSFRow row = sheet.createRow(0);
+        //设置行高
+        row.setHeight((short)600);
+        // 设置表头名称
+        XSSFCell cell = row.createCell(0);
+        cell.setCellValue("月份");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(1);
+        cell.setCellValue("片区");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(2);
+        cell.setCellValue("城市");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(3);
+        cell.setCellValue("站点");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(4);
+        cell.setCellValue("erp账号");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(5);
+        cell.setCellValue("配送员姓名");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(6);
+        cell.setCellValue("备注");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(7);
+        cell.setCellValue("总单量");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(8);
+        cell.setCellValue("合计单量");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(9);
+        cell.setCellValue("小件");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(10);
+        cell.setCellValue("大件");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(11);
+        cell.setCellValue("三同");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(12);
+        cell.setCellValue("售后取件");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(13);
+        cell.setCellValue("商家接货");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(14);
+        cell.setCellValue("扣款");
+        cell.setCellStyle(styleContentTitle);
+
+        cell = row.createCell(15);
+        cell.setCellValue("工资");
+        cell.setCellStyle(styleContentTitle);
+
+
+        // 遍历运营数据list
+        for (int i = 0; i < dispatchlist.size(); i++){
+            DispatchInfoEntity vo=dispatchlist.get(i);
+            // 确定内容开始行
+            row = sheet.createRow(row.getRowNum()+1);
+            //设置行高
+            row.setHeight((short) 600);
+            //月份
+            cell = row.createCell(0);
+            cell.setCellValue(vo.getMonth());
+            cell.setCellStyle(styleContent);
+            //片区
+            cell = row.createCell(1);
+            cell.setCellValue(vo.getArea());
+            cell.setCellStyle(styleContent);
+            //城市
+            cell = row.createCell(2);
+            cell.setCellValue(vo.getCityName());
+            cell.setCellStyle(styleContent);
+            //站点
+            cell = row.createCell(3);
+            cell.setCellValue(vo.getSite());
+            cell.setCellStyle(styleContent);
+            //erp账号
+            cell = row.createCell(4);
+            cell.setCellValue(vo.getErpId());
+            cell.setCellStyle(styleContent);
+            //配送员姓名
+            cell = row.createCell(5);
+            cell.setCellValue(vo.getCourierName());
+            cell.setCellStyle(styleContent);
+            //备注
+            cell = row.createCell(6);
+            cell.setCellValue(vo.getRemark());
+            cell.setCellStyle(styleContent);
+            //总单量
+            cell = row.createCell(7);
+            cell.setCellValue(vo.getAllOrderTotal());
+            cell.setCellStyle(styleContent);
+            //合计单量
+            cell = row.createCell(8);
+            cell.setCellValue(vo.getCountOrderTotal());
+            cell.setCellStyle(styleContent);
+            //小件
+            cell = row.createCell(9);
+            cell.setCellValue(vo.getSmall());
+            cell.setCellStyle(styleContent);
+            //大件
+            cell = row.createCell(10);
+            cell.setCellValue(vo.getLarge());
+            cell.setCellStyle(styleContent);
+            //三同
+            cell = row.createCell(11);
+            cell.setCellValue(vo.getThrIdentical());
+            cell.setCellStyle(styleContent);
+            //售后取件
+            cell = row.createCell(12);
+            cell.setCellValue(vo.getAfterSale());
+            cell.setCellStyle(styleContent);
+            //商家接货
+            cell = row.createCell(13);
+            cell.setCellValue(vo.getSellerPick());
+            cell.setCellStyle(styleContent);
+            //扣款
+            cell = row.createCell(14);
+            cell.setCellValue(vo.getDeductMoney().toString());
+            cell.setCellStyle(styleContent);
+            //工资
+            cell = row.createCell(15);
+            cell.setCellValue(vo.getSalary().toString());
+            cell.setCellStyle(styleContent);
+
+        }
+    // 下载文件
+        try {
+            String filename = "快递员配送数据表.xlsx";
+            response.setHeader("Content-Disposition", "attachment;filename="+new String(filename.getBytes("gb2312"), "iso8859-1"));
+            response.addHeader("Pargam", "no-cache");
+            response.addHeader("Cache-Control", "no-cache");
+            response.setContentType("application/vnd.ms-excel;charset=UTF8");
+            OutputStream os= new BufferedOutputStream(response.getOutputStream());
+            wb.write(os);
+            os.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     /**
      * 信息

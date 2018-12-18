@@ -161,13 +161,21 @@ methods: {
     },
     //下载模板
     down: function () {
-        location.href = encodeURI("/renren-admin/statics/快递员配送数据导入模板.xls");
+        location.href = encodeURI("/renren-admin/statics/快递员配送数据导入模板.xlsx");
     },
     importFile: function () {
         console.info("@@@@@@@@@@")
     },
-    exportFile: function () {
-        console.info("%%%%%%%%%%")
+    exportFile: function (event) {
+        var ids = getSelectedRows();
+        if (ids == null) {
+            return;
+        }else{
+
+        }
+        confirm('确定要导出选中的记录？', function () {
+            location.href = "sys/dispatchinfo/exportdata?id="+ids.join(",");
+        })
     },
     add: function () {
         vm.showList = false;
