@@ -3,6 +3,7 @@ package io.renren.modules.sys.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -13,8 +14,10 @@ import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.CityInfoDao;
 import io.renren.modules.sys.dao.CourierDao;
 import io.renren.modules.sys.entity.CourierEntity;
+import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.service.CourierService;
 import io.renren.modules.sys.vo.CourierVo;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,13 +41,14 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
     private static List<Object> templetList = CollUtil.newArrayList();
 
     static {
-        // 片区 城市 站点 erp账号 姓名 身份证号码 电话 银行卡号 开户行 联行号 入职时间 离职时间 状态 备注
+        // 片区 城市 站点 erp账号 配送员姓名 身份证 电话 银行卡号 开户行 联行号 入职时间 离职时间 状态 备注
+
         templetList.add("片区");
         templetList.add("城市");
         templetList.add("站点");
         templetList.add("erp账号");
-        templetList.add("姓名");
-        templetList.add("身份证号码");
+        templetList.add("配送员姓名");
+        templetList.add("身份证");
         templetList.add("电话");
         templetList.add("银行卡号");
         templetList.add("开户行");
@@ -109,19 +113,21 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
                     courierEntity.setJoinBankNumber(Convert.toStr(lineList.get(9)));
                     courierEntity.setEntryDate(Convert.toDate(lineList.get(10)));
                     courierEntity.setLeaveDate(Convert.toDate(lineList.get(11)));
-                    int status = 0;
-                    if (Convert.toStr(lineList.get(12)).equals("已绑定第三方")) {
-                        status = 1;
-                    }
-                    courierEntity.setStatus(Convert.toInt(status));
+                    courierEntity.setStatus(Convert.toInt(lineList.get(12)));
                     courierEntity.setComment(Convert.toStr(lineList.get(13)));
+                    courierEntity.setIsDelete(0);
+                    String username = ((SysUserEntity) SecurityUtils.getSubject().getPrincipal()).getUsername();
+                    courierEntity.setCreater(username);
+                    courierEntity.setCreateDate(DateUtil.date());
                     courierList.add(courierEntity);
                 });
                 // TODO: 2018/12/15 存入数据库
-                this.insertBatch(courierList);
+                if(CollUtil.isNotEmpty(courierList)) {
+                    this.insertBatch(courierList);
+                }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            new IOException("导入失败!");
         }
     }
 

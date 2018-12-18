@@ -165,7 +165,7 @@ $(function () {
         },
         onComplete : function(file, r){
             if(r.code == 0){
-                alert(r.url);
+                alert(r.msg);
                 vm.reload();
             }else{
                 alert(r.msg);

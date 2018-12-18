@@ -10,10 +10,10 @@
     </resultMap>
 
     <select id="getCityNameById" resultType="java.lang.String">
-        SELECT city_name FROM tb_city_info WHERE 1 = 1 id = #{id}
+        SELECT city_name FROM tb_city_info WHERE 1 = 1 AND id = #{id}
     </select>
     <select id="getIdByCityName" resultType="java.lang.Integer">
-        SELECT id FROM tb_city_info WHERE 1 = 1 id = #{cityName}
+        SELECT id FROM tb_city_info WHERE 1 = 1 AND `name` = #{cityName}
     </select>
 
 
