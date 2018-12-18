@@ -410,6 +410,9 @@ public class MongoUtils {
         mongofile.put("uploadDate", new Date());
         mongofile.save();
     }
+    public GridFSDBFile findFirstFile(Map<String, Object> map,String dbname) {
+        return new GridFS(db, dbname).findOne(map2Obj(map));
+    }
     /**
      * 保存文件
      *

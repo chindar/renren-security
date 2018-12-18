@@ -1,5 +1,6 @@
 package io.renren.modules.sys.controller;
 
+import com.mongodb.gridfs.GridFSDBFile;
 import io.renren.common.utils.MongoUtils;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -46,8 +50,11 @@ public class PactInfoController {
 
     @RequestMapping("/list2")
     @RequiresPermissions("sys:pactinfo:list")
-    public R list2(@RequestParam Map<String, Object> params){
-        PageUtils page = pactInfoService.getPactList(params);
+    public R list2(@RequestParam Map<String, Object> params, HttpServletRequest request){
+        String QUERY_FILE_PATH = request.getScheme() + "://" +
+                request.getServerName() + ":" + request.getServerPort() +
+                request.getContextPath() + "/";
+        PageUtils page = pactInfoService.getPactList(params, QUERY_FILE_PATH);
 
         return R.ok().put("page", page);
     }
@@ -138,5 +145,42 @@ public class PactInfoController {
 
         }
         return R.ok().put("data",result);
+    }
+
+    /**
+     * 下载合同文件
+     * @param fileId
+     * @param response
+     */
+    @RequestMapping("downloadFile")
+    public void downloadFile(
+            @RequestParam(value = "fileId", defaultValue = "") String fileId,
+            HttpServletResponse response) {
+        try {
+            String dbname = "pact";
+            MongoUtils mongo = new MongoUtils();
+            HashMap<String, Object> params = new HashMap<String, Object>(4);
+            params.put("fileId", fileId);
+            GridFSDBFile file = mongo.findFirstFile(params,dbname);
+            if (file == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            String contentType = String.valueOf(file.get("contentType"));
+            String fileName = String.valueOf(file.get("filename"));
+            response.setContentType(contentType);
+            response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("gb2312"), "iso8859-1"));
+            try (InputStream in = file.getInputStream();
+                 BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream())) {
+                byte[] buff = new byte[10240];
+                int i;
+                while ((i = in.read(buff)) > 0) {
+                    out.write(buff, 0, i);
+                }
+                out.flush();
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 }

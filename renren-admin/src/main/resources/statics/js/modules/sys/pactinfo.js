@@ -63,7 +63,7 @@ $(function () {
                         index: 'file_id',
                         width: 80,
                         formatter: function(value, options, row){
-                            return '<a class="caozuo" href="/renren-admin/statics/StudentTemplate.xls">合同</a>&nbsp;&nbsp;<a class="caozuo">人员</a>';
+                            return '<a class="caozuo" href="'+row.fileUrl+'">合同</a>&nbsp;&nbsp;<a class="caozuo">人员</a>';
                         }
                     }
                     // ,

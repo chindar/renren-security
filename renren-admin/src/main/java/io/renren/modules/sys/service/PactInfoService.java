@@ -18,7 +18,7 @@ public interface PactInfoService extends IService<PactInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    PageUtils getPactList(Map<String, Object> params);
+    PageUtils getPactList(Map<String, Object> params,String path);
 
     /**
      * 获取全部合同信息

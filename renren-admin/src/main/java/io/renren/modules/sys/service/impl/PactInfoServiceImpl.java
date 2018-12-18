@@ -2,9 +2,11 @@ package io.renren.modules.sys.service.impl;
 
 import com.baomidou.mybatisplus.mapper.SqlHelper;
 import io.renren.common.utils.Tools;
+import org.apache.velocity.runtime.directive.Foreach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -35,7 +37,7 @@ public class PactInfoServiceImpl extends ServiceImpl<PactInfoDao, PactInfoEntity
     }
 
     @Override
-    public PageUtils getPactList(Map<String, Object> params) {
+    public PageUtils getPactList(Map<String, Object> params,String path) {
         PactInfoEntity entity = new PactInfoEntity();
         Page page = new Query<PactInfoEntity>(params).getPage();
         if (params.get("businessName") != null && Tools.notEmpty(params.get("businessName").toString()))
@@ -45,10 +47,14 @@ public class PactInfoServiceImpl extends ServiceImpl<PactInfoDao, PactInfoEntity
         if (params.get("businessName") != null && Tools.notEmpty(params.get("pactStatus").toString()))
             entity.setPactStatus(Integer.valueOf(params.get("pactStatus").toString()));
         List<PactInfoEntity> list = dao.getPactList(page,entity);
+        if (list.size() > 0){
+            for (PactInfoEntity info: list) {
+                if (Tools.notEmpty(info.getFileId())){
+                    info.setFileUrl(MessageFormat.format("{0}sys/pactinfo/downloadFile?fileId={1}", path, info.getFileId()));
+                }
+            }
+        }
         page.setRecords(list);
-//        page.setTotal(list.size());
-        System.out.println(page);
-        System.out.println(page.getPages());
         return new PageUtils(page);
     }
 
