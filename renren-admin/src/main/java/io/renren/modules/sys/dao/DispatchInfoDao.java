@@ -26,5 +26,7 @@ public interface DispatchInfoDao extends BaseMapper<DispatchInfoEntity> {
     CityInfoEntity getCityInfo(@Param("cityName")String cityName);
 
     int insertDispatch(DispatchInfoEntity entity);
+
+    List<DispatchInfoEntity> getExportData(@Param("ids")Integer[] ids);
 	
 }

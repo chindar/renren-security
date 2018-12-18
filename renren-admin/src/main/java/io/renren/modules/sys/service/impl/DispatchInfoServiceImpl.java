@@ -73,4 +73,15 @@ public class DispatchInfoServiceImpl extends ServiceImpl<DispatchInfoDao, Dispat
         int count = dao.insertDispatch(entity);
         return count;
     }
+
+    /**
+     * 导出运营数据
+     * @param ids
+     * @return
+     */
+    @Override
+    public List<DispatchInfoEntity> getExportData(Integer[] ids) {
+        List<DispatchInfoEntity> list = dao.getExportData(ids);
+        return list;
+    }
 }

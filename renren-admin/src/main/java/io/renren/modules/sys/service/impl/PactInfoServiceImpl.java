@@ -61,4 +61,6 @@ public class PactInfoServiceImpl extends ServiceImpl<PactInfoDao, PactInfoEntity
     public List<PactInfoEntity> getAll() {
         return dao.getAll();
     }
+
+
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.DispatchInfoEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,5 +21,7 @@ public interface DispatchInfoService extends IService<DispatchInfoEntity> {
     PageUtils getDispatchList(Map<String, Object> params);
 
     int importData(DispatchInfoEntity entity);
+
+    List<DispatchInfoEntity> getExportData(Integer[] ids);
 }
 
