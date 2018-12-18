@@ -70,7 +70,7 @@ public class CourierController {
      */
     @SysLog("导入配送员信息")
     @PostMapping("/import")
-    public R importCourier(@RequestParam("file") MultipartFile file) {
+    public R importCourier(@RequestParam("file") MultipartFile file, @RequestParam("pactId")String pactId) {
         courierService.importCourier(file);
         return R.ok();
     }

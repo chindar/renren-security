@@ -38,7 +38,7 @@ $(function () {
                 name: 'status',
                 index: 'status',
                 width: 80,
-                formatter: function(value, options, row){
+                formatter: function (value, options, row) {
                     return value === 0 ?
                         '<span class="label label-danger">未绑定第三方</span>' :
                         '<span class="label label-success">已绑定第三方</span>';
@@ -155,19 +155,28 @@ $(function () {
     new AjaxUpload('#upload', {
         action: baseURL + "sys/courier/import",
         name: 'file',
-        autoSubmit:true,
-        responseType:"json",
-        onSubmit:function(file, extension){
-            if (!(extension && /^(xlsx|xls)$/.test(extension.toLowerCase()))){
-                alert('只支持xlsx|xls格式的文件！');
+        data: {pactId: $("#pactId  option:selected").val()},
+        autoSubmit: true,
+        responseType: "json",
+        onSubmit: function (file, extension) {
+            var aa = $("#pactId option:selected").val();
+            console.log(aa);
+            console.log(vm.pactId);
+
+            if (vm.pactId == null) {
+                alert("录入之前请先选择某一个合同, 之后再错做");
+                return false;
+            }
+            if (!(extension && /^(xlsx)$/.test(extension.toLowerCase()))) {
+                alert('只支持xlsx格式的文件！');
                 return false;
             }
         },
-        onComplete : function(file, r){
-            if(r.code == 0){
+        onComplete: function (file, r) {
+            if (r.code == 0) {
                 alert(r.msg);
                 vm.reload();
-            }else{
+            } else {
                 alert(r.msg);
             }
         },
@@ -185,7 +194,7 @@ var vm = new Vue({
             name: null
         },
         courier: {},
-        pactId: '请选择合同',
+        pactId: null,
         pactList: []
     },
     methods: {
@@ -260,19 +269,19 @@ var vm = new Vue({
         reload: function (event) {
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
-            if(vm.keyword == 0) {
+            if (vm.keyword == 0) {
                 $("#jqGrid").jqGrid('setGridParam', {
-                    postData:{"courierName": vm.q.name},
+                    postData: {"courierName": vm.q.name},
                     page: page
                 }).trigger("reloadGrid");
             } else if (vm.keyword == 1) {
                 $("#jqGrid").jqGrid('setGridParam', {
-                    postData:{"cardId": vm.q.name},
+                    postData: {"cardId": vm.q.name},
                     page: page
                 }).trigger("reloadGrid");
             } else if (vm.keyword == 2) {
                 $("#jqGrid").jqGrid('setGridParam', {
-                    postData:{"phone": vm.q.name},
+                    postData: {"phone": vm.q.name},
                     page: page
                 }).trigger("reloadGrid");
             } else {
@@ -302,12 +311,8 @@ var vm = new Vue({
             });
         },
 
-        /**********************************************************************
-         * 导入Excel
-         * @author Wang Chinda
-         **********************************************************************/
         importExcel: function () {
-
+            alert("11111111");
         },
 
         /**********************************************************************
