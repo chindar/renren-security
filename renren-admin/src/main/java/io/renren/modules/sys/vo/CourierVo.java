@@ -8,6 +8,8 @@
  */
 package io.renren.modules.sys.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -52,10 +54,12 @@ public class CourierVo implements Serializable {
     /**
      * 入职时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date entryDate;
     /**
      * 离职时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date leaveDate;
     /**
      * 1:已绑定第三方 0:未绑定第三方

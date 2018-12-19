@@ -79,3 +79,46 @@ function getSelectedRows() {
 function isBlank(value) {
     return !value || !/\S/.test(value)
 }
+
+//格式化时间  YYYYMMDD to YYYY-MM-DD
+function formatTime(time) {
+    if (time == null) {
+        return "";
+    } else {
+        if (time.length == 8) {
+            time = time.substring(0,4) + '-' + time.substring(4,6) + '-' + time.substring(6,8);
+        }
+        return time;
+    }
+}
+// 格式化时间  YYYY-MM-DD to YYYYMMDD
+function reFormatTime(time) {
+    if (time == null) {
+        return "";
+    } else {
+        var timeList = [];
+        timeList = time.split('-');
+        time = '';
+        for (var i = 0; i < timeList.length; i++) {
+            if (timeList[i].length < 2 && timeList[i].length != 0) {
+                timeList[i] = '0' + timeList[i];
+            }
+            time += timeList[i];
+        }
+        return time;
+    }
+}
+
+/**********************************************************************
+ * 格式化时间  YYYY-MM-DD HH:mm:ss to YYYY-MM-DD
+ * @author Wang Chinda
+ **********************************************************************/
+function parseDate(time) {
+    if (time == null) {
+        return "";
+    } else {
+        var timeList = [];
+        timeList = time.split(' ');
+        return timeList[0];
+    }
+}
