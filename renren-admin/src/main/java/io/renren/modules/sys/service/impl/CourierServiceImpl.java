@@ -114,8 +114,8 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
                     courierEntity.setBankCardId(Convert.toStr(lineList.get(7)));
                     courierEntity.setDepositBank(Convert.toStr(lineList.get(8)));
                     courierEntity.setJoinBankNumber(Convert.toStr(lineList.get(9)));
-                    courierEntity.setEntryDate(Convert.toDate(lineList.get(10)));
-                    courierEntity.setLeaveDate(Convert.toDate(lineList.get(11)));
+                    courierEntity.setEntryDate(DateUtil.parseDate(Convert.toStr(lineList.get(10))));
+                    courierEntity.setLeaveDate(DateUtil.parseDate(Convert.toStr(lineList.get(11))));
                     courierEntity.setStatus(Convert.toInt(lineList.get(12)));
                     courierEntity.setComment(Convert.toStr(lineList.get(13)));
                     courierEntity.setIsDelete(0);
