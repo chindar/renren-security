@@ -2,6 +2,7 @@ package io.renren.modules.sys.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
 import io.renren.modules.sys.entity.CourierEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,10 +22,18 @@ public interface CourierService extends IService<CourierEntity> {
     /**
      * 上传文件
      * @param file
+     * @return
      */
-    void importCourier(MultipartFile file);
+    R importCourier(MultipartFile file);
 
     PageUtils selectMyPage(Map<String, Object> params);
 
+    /**
+     * 批量更新配送员信息
+     * @param batchId
+     * @param pactId
+     * @return
+     */
+    R editBatch(String batchId, String pactId);
 }
 

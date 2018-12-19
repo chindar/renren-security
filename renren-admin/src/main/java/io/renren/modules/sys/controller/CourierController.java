@@ -70,9 +70,15 @@ public class CourierController {
      */
     @SysLog("导入配送员信息")
     @PostMapping("/import")
-    public R importCourier(@RequestParam("file") MultipartFile file, @RequestParam("pactId")String pactId) {
-        courierService.importCourier(file);
-        return R.ok();
+    public R importCourier(@RequestParam("file") MultipartFile file) {
+
+        return courierService.importCourier(file);
+    }
+
+    @SysLog("批量更新配送员信息")
+    @PostMapping("/editPact")
+    public R editPact(String batchId, String pactId) {
+        return courierService.editBatch(batchId, pactId);
     }
 
     /**

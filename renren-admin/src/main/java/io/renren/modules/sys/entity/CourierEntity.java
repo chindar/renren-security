@@ -103,6 +103,9 @@ public class CourierEntity implements Serializable {
 	 */
 	private Integer isDelete;
 
+	/** 批次Id */
+	private String batchId;
+
 	/**
 	 * 设置：
 	 */
@@ -348,5 +351,13 @@ public class CourierEntity implements Serializable {
 	 */
 	public Integer getIsDelete() {
 		return isDelete;
+	}
+
+	public String getBatchId() {
+		return batchId;
+	}
+
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
 	}
 }

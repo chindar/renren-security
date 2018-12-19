@@ -155,13 +155,9 @@ $(function () {
     new AjaxUpload('#upload', {
         action: baseURL + "sys/courier/import",
         name: 'file',
-        data: {pactId: $("#pactId  option:selected").val()},
         autoSubmit: true,
         responseType: "json",
         onSubmit: function (file, extension) {
-            var aa = $("#pactId option:selected").val();
-            console.log(aa);
-            console.log(vm.pactId);
 
             if (vm.pactId == null) {
                 alert("录入之前请先选择某一个合同, 之后再错做");
@@ -174,8 +170,7 @@ $(function () {
         },
         onComplete: function (file, r) {
             if (r.code == 0) {
-                alert(r.msg);
-                vm.reload();
+                vm.batchId = r.batchId;
             } else {
                 alert(r.msg);
             }
@@ -195,7 +190,15 @@ var vm = new Vue({
         },
         courier: {},
         pactId: null,
-        pactList: []
+        pactList: [],
+        batchId: null
+    },
+    watch: {
+        batchId: function (newBatchId, oldBatchId) {
+            if (newBatchId != null) {
+                this.editBatch(newBatchId);
+            }
+        }
     },
     methods: {
         query: function () {
@@ -311,8 +314,24 @@ var vm = new Vue({
             });
         },
 
-        importExcel: function () {
-            alert("11111111");
+        editBatch: function (batchId) {
+            var data = {};
+            data["batchId"] = batchId;
+            data["pactId"] = vm.pactId;
+            $.ajax({
+                type: "POST",
+                url: baseURL + "sys/courier/editPact",
+                data: data,
+                success: function (r) {
+                    if (r.code == 0) {
+                        alert('导入成功', function (index) {
+                            vm.reload();
+                        });
+                    } else {
+                        alert(r.msg);
+                    }
+                }
+            });
         },
 
         /**********************************************************************

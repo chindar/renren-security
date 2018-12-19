@@ -53,6 +53,12 @@
         <result property="modifyDate" column="modify_date"/>
         <result property="isDelete" column="is_delete"/>
     </resultMap>
+    <update id="updateByBatch">
+        UPDATE tb_courier
+        SET pact_id = #{pactId}
+        WHERE 1 = 1
+        AND batch_id = #{batchId}
+     </update>
 
     <select id="selectMyPage" parameterType="io.renren.modules.sys.vo.CourierVo" resultMap="courierVoMap">
       SELECT

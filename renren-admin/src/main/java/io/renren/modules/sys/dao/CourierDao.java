@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import io.renren.modules.sys.entity.CourierEntity;
 import io.renren.modules.sys.vo.CourierVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,4 +24,10 @@ public interface CourierDao extends BaseMapper<CourierEntity> {
      * @return
      */
     List<CourierVo> selectMyPage(Page<CourierVo> page, CourierVo courierVo);
+
+    /**
+     * 更新导入信息
+     * @param batchId
+     */
+    void updateByBatch(@Param("batchId") String batchId, @Param("pactId") String pactId);
 }

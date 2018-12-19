@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
+import io.renren.common.utils.R;
 import io.renren.modules.sys.dao.CityInfoDao;
 import io.renren.modules.sys.dao.CourierDao;
 import io.renren.modules.sys.entity.CourierEntity;
@@ -79,11 +81,12 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
 
     /**
      * 上传文件
-     *
      * @param multipartFile
+     * @return
      */
     @Override
-    public void importCourier(MultipartFile multipartFile) {
+    public R importCourier(MultipartFile multipartFile) {
+        final String batchId = RandomUtil.simpleUUID();
         try {
             InputStream is = multipartFile.getInputStream();
             String filename = multipartFile.getOriginalFilename();
@@ -119,18 +122,32 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
                     String username = ((SysUserEntity) SecurityUtils.getSubject().getPrincipal()).getUsername();
                     courierEntity.setCreater(username);
                     courierEntity.setCreateDate(DateUtil.date());
+                    courierEntity.setBatchId(batchId);
                     courierList.add(courierEntity);
                 });
                 // TODO: 2018/12/15 存入数据库
-                if(CollUtil.isNotEmpty(courierList)) {
+                if (CollUtil.isNotEmpty(courierList)) {
                     this.insertBatch(courierList);
                 }
             }
         } catch (IOException e) {
-            new IOException("导入失败!");
+            e.getStackTrace();
+            R.error("导入失败, 解析Excel异常!");
         }
+        return R.ok().put("batchId", batchId);
     }
 
+    /**
+     * 批量更新配送员信息
+     * @param batchId
+     * @param pactId
+     * @return
+     */
+    @Override
+    public R editBatch(String batchId, String pactId) {
+        courierDao.updateByBatch(batchId, pactId);
+        return R.ok();
+    }
 
     /**
      * 是否为Excel模板
