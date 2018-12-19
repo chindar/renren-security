@@ -104,15 +104,21 @@ public class DispatchInfoController {
                     rows.getCell(4).setCellType(Cell.CELL_TYPE_STRING);
                     rows.getCell(5).setCellType(Cell.CELL_TYPE_STRING);
                     rows.getCell(6).setCellType(Cell.CELL_TYPE_STRING);
-                    rows.getCell(7).setCellType(Cell.CELL_TYPE_STRING);
-                    rows.getCell(8).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(7).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(8).setCellType(Cell.CELL_TYPE_STRING);
                     rows.getCell(9).setCellType(Cell.CELL_TYPE_STRING);
-                    rows.getCell(10).setCellType(Cell.CELL_TYPE_STRING);
-                    rows.getCell(11).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(10).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(11).setCellType(Cell.CELL_TYPE_STRING);
                     rows.getCell(12).setCellType(Cell.CELL_TYPE_STRING);
                     rows.getCell(13).setCellType(Cell.CELL_TYPE_STRING);
-                    rows.getCell(14).setCellType(Cell.CELL_TYPE_STRING);
-                    rows.getCell(15).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(14).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(15).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(16).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(17).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(18).setCellType(Cell.CELL_TYPE_STRING);
+                    rows.getCell(19).setCellType(Cell.CELL_TYPE_STRING);
+                    rows.getCell(20).setCellType(Cell.CELL_TYPE_STRING);
+                    rows.getCell(21).setCellType(Cell.CELL_TYPE_STRING);
                     DispatchInfoEntity entity = new DispatchInfoEntity();
                     entity.setMonth(rows.getCell(0).getStringCellValue().trim());
                     entity.setArea(rows.getCell(1).getStringCellValue().trim());
@@ -121,15 +127,21 @@ public class DispatchInfoController {
                     entity.setErpId(rows.getCell(4).getStringCellValue().trim());
                     entity.setCourierName(rows.getCell(5).getStringCellValue().trim());
                     entity.setRemark(rows.getCell(6).getStringCellValue().trim());
-                    entity.setAllOrderTotal(Integer.parseInt(rows.getCell(7).getStringCellValue().trim()));
-                    entity.setCountOrderTotal(Integer.parseInt(rows.getCell(8).getStringCellValue().trim()));
-                    entity.setSmall(Integer.parseInt(rows.getCell(9).getStringCellValue().trim()));
-                    entity.setLarge(Integer.parseInt(rows.getCell(10).getStringCellValue().trim()));
-                    entity.setThrIdentical(rows.getCell(11).getStringCellValue().trim());
-                    entity.setAfterSale(rows.getCell(12).getStringCellValue().trim());
-                    entity.setSellerPick(rows.getCell(13).getStringCellValue().trim());
-                    entity.setDeductMoney(new BigDecimal(rows.getCell(14).getStringCellValue().trim()));
-                    entity.setSalary(new BigDecimal(rows.getCell(15).getStringCellValue().trim()));
+                    entity.setAllOrderTotal(Integer.valueOf((int)rows.getCell(7).getNumericCellValue()));
+                    entity.setCountOrderTotal(Integer.valueOf((int)rows.getCell(8).getNumericCellValue()));
+                    entity.setTotalMoney(new BigDecimal(rows.getCell(9).getStringCellValue().trim()));
+                    entity.setSmall(Integer.valueOf((int)rows.getCell(10).getNumericCellValue()));
+                    entity.setLarge(Integer.valueOf((int)rows.getCell(11).getNumericCellValue()));
+                    entity.setThrIdentical(rows.getCell(12).getStringCellValue().trim());
+                    entity.setAfterSale(rows.getCell(13).getStringCellValue().trim());
+                    entity.setFirstCount(Integer.valueOf((int)rows.getCell(14).getNumericCellValue()));
+                    entity.setAgainCount(Integer.valueOf((int)rows.getCell(15).getNumericCellValue()));
+                    entity.setOtherCount(Integer.valueOf((int)rows.getCell(16).getNumericCellValue()));
+                    entity.setBadCount(Integer.valueOf((int)rows.getCell(17).getNumericCellValue()));
+                    entity.setComplaintCount(Integer.valueOf((int)rows.getCell(18).getNumericCellValue()));
+                    entity.setFineMoney(new BigDecimal(rows.getCell(19).getStringCellValue().trim()));
+                    entity.setDeductMoney(new BigDecimal(rows.getCell(20).getStringCellValue().trim()));
+                    entity.setSalary(new BigDecimal(rows.getCell(21).getStringCellValue().trim()));
                     dispatchInfoService.importData(entity);
 
                 }
@@ -168,54 +180,6 @@ public class DispatchInfoController {
         // 设置所有单元格大小 -- 高度
         sheet.setDefaultRowHeightInPoints(14);
         //        sheet.createFreezePane(0, 2, 0, 2);
-        /**
-         * 样式设置
-         * 1.所有字体为Arial格式
-         * 2.所有表头部分字体大小为14号，其他部分为11号
-         */
-        // 1.表头样式,蓝色14号字体,加粗,
-        XSSFCellStyle styleTitle = wb.createCellStyle();
-        // 居中
-        styleTitle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        styleTitle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-        XSSFFont font = wb.createFont();
-        // 字体颜色
-        //        font.setColor(HSSFColor.SKY_BLUE.index);//HSSFColor.VIOLET.index //字体颜色
-        // 字体大小
-        font.setFontHeightInPoints((short)14);
-        //字体格式
-        font.setFontName("Arial");
-        // 字体增粗
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-        styleTitle.setFont(font);
-        /**
-         * 表格内容样式设置
-         * 1.表头样式
-         * 2.表格内容样式
-         */
-        // 1.表头样式
-        // 设置居中样式
-        XSSFCellStyle styleContentTitle = wb.createCellStyle();
-        styleContentTitle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        styleContentTitle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-        // 字体大小
-        XSSFFont fontContentTitle = wb.createFont();
-        fontContentTitle.setFontHeightInPoints((short) 11);
-        // 字体增粗
-        fontContentTitle.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-        styleContentTitle.setFont(fontContentTitle);
-
-        // 2.表格内容样式
-        // 设置居中样式
-        XSSFCellStyle styleContent = wb.createCellStyle();
-        styleContent.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        styleContent.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-        // 设置自动换行
-        styleContent.setWrapText(true);
-        // 字体大小
-        XSSFFont fontContent = wb.createFont();
-        fontContent.setFontHeightInPoints((short) 11);
-        styleContent.setFont(fontContent);
 
         /**
          * 数据表内容
@@ -227,67 +191,69 @@ public class DispatchInfoController {
         // 设置表头名称
         XSSFCell cell = row.createCell(0);
         cell.setCellValue("月份");
-        cell.setCellStyle(styleContentTitle);
 
         cell = row.createCell(1);
         cell.setCellValue("片区");
-        cell.setCellStyle(styleContentTitle);
 
         cell = row.createCell(2);
         cell.setCellValue("城市");
-        cell.setCellStyle(styleContentTitle);
 
         cell = row.createCell(3);
         cell.setCellValue("站点");
-        cell.setCellStyle(styleContentTitle);
 
         cell = row.createCell(4);
         cell.setCellValue("erp账号");
-        cell.setCellStyle(styleContentTitle);
 
         cell = row.createCell(5);
         cell.setCellValue("配送员姓名");
-        cell.setCellStyle(styleContentTitle);
 
         cell = row.createCell(6);
         cell.setCellValue("备注");
-        cell.setCellStyle(styleContentTitle);
 
         cell = row.createCell(7);
         cell.setCellValue("总单量");
-        cell.setCellStyle(styleContentTitle);
 
         cell = row.createCell(8);
-        cell.setCellValue("合计单量");
-        cell.setCellStyle(styleContentTitle);
+        cell.setCellValue("合并后单量");
 
         cell = row.createCell(9);
-        cell.setCellValue("小件");
-        cell.setCellStyle(styleContentTitle);
+        cell.setCellValue("费用合计");
 
         cell = row.createCell(10);
-        cell.setCellValue("大件");
-        cell.setCellStyle(styleContentTitle);
+        cell.setCellValue("小件");
 
         cell = row.createCell(11);
-        cell.setCellValue("三同");
-        cell.setCellStyle(styleContentTitle);
+        cell.setCellValue("大件");
 
         cell = row.createCell(12);
-        cell.setCellValue("售后取件");
-        cell.setCellStyle(styleContentTitle);
+        cell.setCellValue("三同");
 
         cell = row.createCell(13);
-        cell.setCellValue("商家接货");
-        cell.setCellStyle(styleContentTitle);
+        cell.setCellValue("售后取件");
 
         cell = row.createCell(14);
-        cell.setCellValue("扣款");
-        cell.setCellStyle(styleContentTitle);
+        cell.setCellValue("接货首单量");
 
         cell = row.createCell(15);
-        cell.setCellValue("工资");
-        cell.setCellStyle(styleContentTitle);
+        cell.setCellValue("接货续单量");
+
+        cell = row.createCell(16);
+        cell.setCellValue("其他单量");
+
+        cell = row.createCell(17);
+        cell.setCellValue("差评");
+
+        cell = row.createCell(18);
+        cell.setCellValue("投诉");
+
+        cell = row.createCell(19);
+        cell.setCellValue("罚款合计");
+
+        cell = row.createCell(20);
+        cell.setCellValue("其他扣款");
+
+        cell = row.createCell(21);
+        cell.setCellValue("实发工资");
 
 
         // 遍历运营数据list
@@ -300,67 +266,69 @@ public class DispatchInfoController {
             //月份
             cell = row.createCell(0);
             cell.setCellValue(vo.getMonth());
-            cell.setCellStyle(styleContent);
             //片区
             cell = row.createCell(1);
             cell.setCellValue(vo.getArea());
-            cell.setCellStyle(styleContent);
             //城市
             cell = row.createCell(2);
             cell.setCellValue(vo.getCityName());
-            cell.setCellStyle(styleContent);
             //站点
             cell = row.createCell(3);
             cell.setCellValue(vo.getSite());
-            cell.setCellStyle(styleContent);
             //erp账号
             cell = row.createCell(4);
             cell.setCellValue(vo.getErpId());
-            cell.setCellStyle(styleContent);
             //配送员姓名
             cell = row.createCell(5);
             cell.setCellValue(vo.getCourierName());
-            cell.setCellStyle(styleContent);
             //备注
             cell = row.createCell(6);
             cell.setCellValue(vo.getRemark());
-            cell.setCellStyle(styleContent);
             //总单量
             cell = row.createCell(7);
             cell.setCellValue(vo.getAllOrderTotal());
-            cell.setCellStyle(styleContent);
             //合计单量
             cell = row.createCell(8);
             cell.setCellValue(vo.getCountOrderTotal());
-            cell.setCellStyle(styleContent);
-            //小件
+            //费用合计
             cell = row.createCell(9);
-            cell.setCellValue(vo.getSmall());
-            cell.setCellStyle(styleContent);
-            //大件
+            cell.setCellValue(vo.getTotalMoney().toString());
+            //小件
             cell = row.createCell(10);
-            cell.setCellValue(vo.getLarge());
-            cell.setCellStyle(styleContent);
-            //三同
+            cell.setCellValue(vo.getSmall());
+            //大件
             cell = row.createCell(11);
-            cell.setCellValue(vo.getThrIdentical());
-            cell.setCellStyle(styleContent);
-            //售后取件
+            cell.setCellValue(vo.getLarge());
+            //三同
             cell = row.createCell(12);
-            cell.setCellValue(vo.getAfterSale());
-            cell.setCellStyle(styleContent);
-            //商家接货
+            cell.setCellValue(vo.getThrIdentical());
+            //售后取件
             cell = row.createCell(13);
-            cell.setCellValue(vo.getSellerPick());
-            cell.setCellStyle(styleContent);
-            //扣款
+            cell.setCellValue(vo.getAfterSale());
+            //接货首单量
             cell = row.createCell(14);
-            cell.setCellValue(vo.getDeductMoney().toString());
-            cell.setCellStyle(styleContent);
-            //工资
+            cell.setCellValue(vo.getFirstCount());
+            //接货续单量
             cell = row.createCell(15);
+            cell.setCellValue(vo.getAgainCount());
+            //其他单量
+            cell = row.createCell(16);
+            cell.setCellValue(vo.getOtherCount());
+            //差评
+            cell = row.createCell(17);
+            cell.setCellValue(vo.getBadCount());
+            //投诉
+            cell = row.createCell(18);
+            cell.setCellValue(vo.getComplaintCount());
+            //罚款合计
+            cell = row.createCell(19);
+            cell.setCellValue(vo.getFineMoney().toString());
+            //扣款
+            cell = row.createCell(20);
+            cell.setCellValue(vo.getDeductMoney().toString());
+            //工资
+            cell = row.createCell(21);
             cell.setCellValue(vo.getSalary().toString());
-            cell.setCellStyle(styleContent);
 
         }
     // 下载文件

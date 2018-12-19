@@ -61,14 +61,10 @@ public class DispatchInfoServiceImpl extends ServiceImpl<DispatchInfoDao, Dispat
         if (Tools.isEmpty(entity.getCourierName()) || Tools.isEmpty(entity.getErpId()))
             throw new RuntimeException("配送员姓名和erp编号不能为空");
         //根据erp编号和姓名查询配送员Id
-        CourierEntity courierVo = dao.getCourierInfo(entity.getCourierName(),entity.getErpId());
-        if(courierVo == null)
-            throw new RuntimeException("姓名："+entity.getCourierName()+"编号："+entity.getErpId()+" 的配送员不存在，请先导入配送员");
-        entity.setCourierId(courierVo.getId());
-//        if (Tools.isEmpty(entity.getCityName()))
-//            throw new RuntimeException("城市名不能为空");
-//        //根据城市名查询城市信息
-//        CityInfoEntity cityVo = dao.getCityInfo(entity.getCityName());
+//        CourierEntity courierVo = dao.getCourierInfo(entity.getCourierName(),entity.getErpId());
+//        if(courierVo == null)
+//            throw new RuntimeException("姓名："+entity.getCourierName()+"编号："+entity.getErpId()+" 的配送员不存在，请先导入配送员");
+//        entity.setCourierId(courierVo.getId());
         //插入数据信息
         int count = dao.insertDispatch(entity);
         return count;

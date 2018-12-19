@@ -19,28 +19,33 @@ $(function () {
                         label: '片区',
                         name: 'area',
                         index: 'area',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     },{
                         label: '城市',
                         name: 'cityName',
                         index: 'city_name',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     },{
                         label: '站点',
                         name: 'site',
                         index: 'site',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     },{
                         label: 'erp账号',
                         name: 'erpId',
                         index: 'erp_id',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     },
                     {
                         label: '配送员姓名',
                         name: 'courierName',
                         index: 'courier_name',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     }, 
                     {
                         label: '总单量',
@@ -49,50 +54,93 @@ $(function () {
                         width: 80
                     }, 
                     {
-                        label: '合计单量',
+                        label: '合并后单量',
                         name: 'countOrderTotal',
                         index: 'count_order_total',
                         width: 80
-                    }, 
+                    },{
+                        label: '费用合计',
+                        name: 'totalMoney',
+                        index: 'total_money',
+                        width: 80
+                    },
                     {
                         label: '大件',
                         name: 'large',
                         index: 'large',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     }, 
                     {
                         label: '小件',
                         name: 'small',
                         index: 'small',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     }, 
                     {
                         label: '三同',
                         name: 'thrIdentical',
                         index: 'thr_identical',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     }, 
                     {
                         label: '售后取件',
                         name: 'afterSale',
                         index: 'after_sale',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     }, 
                     {
-                        label: '商家接货',
-                        name: 'sellerPick',
-                        index: 'seller_pick',
-                        width: 80
-                    }, 
+                        label: '接货首单量',
+                        name: 'firstCount',
+                        index: 'first_count',
+                        width: 80,
+                        sortable: false
+                    },
                     {
-                        label: '工资',
-                        name: 'salary',
-                        index: 'salary',
+                        label: '接货续单量',
+                        name: 'againCount',
+                        index: 'again_count',
+                        width: 80,
+                        sortable: false
+                    },
+                    {
+                        label: '其他单量',
+                        name: 'otherCount',
+                        index: 'other_count',
+                        width: 80,
+                        sortable: false
+                    },
+                    {
+                        label: '差评',
+                        name: 'badCount',
+                        index: 'bad_count',
                         width: 80
-                    },{
-                        label: '扣款',
+                    },
+                    {
+                        label: '投诉',
+                        name: 'complaintCount',
+                        index: 'complaint_count',
+                        width: 80
+                    },
+                    {
+                        label: '罚款合计',
+                        name: 'fineMoney',
+                        index: 'fine_money',
+                        width: 80
+                    },
+                    {
+                        label: '其他扣款',
                         name: 'deductMoney',
                         index: 'deduct_money',
+                        width: 80
+                    },
+                    {
+                        label: '实发工资',
+                        name: 'salary',
+                        index: 'salary',
                         width: 80
                     }
                     ],
@@ -161,7 +209,7 @@ methods: {
     },
     //下载模板
     down: function () {
-        location.href = encodeURI("/renren-admin/statics/快递员配送数据导入模板.xlsx");
+        location.href = encodeURI("/renren-admin/statics/快递员配送数据导入模板1.xlsx");
     },
     importFile: function () {
         console.info("@@@@@@@@@@")

@@ -26,7 +26,8 @@ $(function () {
                         label: '城市',
                         name: 'cityName',
                         index: 'city_name',
-                        width: 80
+                        width: 80,
+                        sortable: false
                     }, 
                                                                 {
                         label: '起始日期',
@@ -62,6 +63,7 @@ $(function () {
                         name: 'fileId',
                         index: 'file_id',
                         width: 80,
+                        sortable: false,
                         formatter: function(value, options, row){
                             return '<a class="caozuo" href="'+row.fileUrl+'">合同</a>&nbsp;&nbsp;<a class="caozuo">人员</a>';
                         }
