@@ -132,7 +132,7 @@ $(function () {
         responseType: "json",
         onSubmit: function (file, extension) {
 
-            if (vm.pactId == null) {
+            if (vm.pactId == '') {
                 alert("录入之前请先选择某一个合同, 之后再错做");
                 return false;
             }
