@@ -23,6 +23,7 @@
 
             <div class="form-group col-md-2">
                 <select class="form-control" v-model="pactId" id="pactId" name="pactId" placeholder="请选择合同">
+                    <option value="">请选择合同</option>
                     <option v-for="pact in pactList" v-bind:value="pact.id" v-bind:key="pact.id">
                         {{ pact.name }}
                     </option>

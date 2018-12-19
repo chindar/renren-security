@@ -189,7 +189,7 @@ var vm = new Vue({
             name: null
         },
         courier: {},
-        pactId: null,
+        pactId: '',
         pactList: [],
         batchId: null
     },
