@@ -1,8 +1,11 @@
 package io.renren.modules.sys.service.impl;
 
+import io.renren.common.utils.Tools;
+import io.renren.modules.sys.entity.PactInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -34,13 +37,21 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoDao, CompanyI
 
 
     @Override
-    public PageUtils getCompanyList(Map<String, Object> params) {
+    public PageUtils getCompanyList(Map<String, Object> params,String path) {
         CompanyInfoEntity entity = new CompanyInfoEntity();
         Page page = new Query<CompanyInfoEntity>(params).getPage();
         List<CompanyInfoEntity> list = dao.getCompanyList(page,entity);
+        if (list.size() > 0){
+            for (CompanyInfoEntity info: list) {
+                if (Tools.notEmpty(info.getBusinessFileid())){
+                    info.setBusinessFileUrl(MessageFormat.format("{0}sys/companyinfo/getFile?fileId={1}&dbname={2}", path, info.getBusinessFileid(),"businessFile"));
+                }
+                if (Tools.notEmpty(info.getBusinessFileid())){
+                    info.setCardFileUrl(MessageFormat.format("{0}sys/companyinfo/getFile?fileId={1}&dbname={2}", path, info.getCardFileid(),"cardFile"));
+                }
+            }
+        }
         page.setRecords(list);
-        System.out.println(page);
-        System.out.println(page.getPages());
         return new PageUtils(page);
     }
 

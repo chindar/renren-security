@@ -62,13 +62,19 @@ $(function () {
                         label: '营业执照',
                         name: 'businessFileid',
                         index: 'business_fileid',
-                        width: 80
+                        width: 80,
+                        formatter: function(value, options, row){
+                            return '<img class="caozuo" src="'+row.businessFileUrl+'">';
+                        }
                     }, 
                     {
                         label: '法人身份证',
                         name: 'cardFileid',
                         index: 'card_fileid',
-                        width: 80
+                        width: 80,
+                        formatter: function(value, options, row){
+                            return '<img class="caozuo" src="'+row.cardFileUrl+'">';
+                        }
                     }
                             ],
         viewrecords: true,
@@ -180,6 +186,8 @@ methods: {
         vm.companyInfo = { cityId: ''
             // businessFileUrl : 'http://localhost:8080/renren-admin/sys/companyinfo/getFile?fileId=1545211156491&dbname=businessFile'
         };
+        $("#aaa").attr("src","/renren-admin/statics/default.png")
+        $("#bbb").attr("src","/renren-admin/statics/default.png")
     }
 ,
     update: function (event) {

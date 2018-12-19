@@ -11,6 +11,7 @@ import java.util.Map;
 import com.mongodb.gridfs.GridFSDBFile;
 import io.renren.common.utils.MongoUtils;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.UpdateGroup;
 import org.apache.http.entity.FileEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +55,12 @@ public class CompanyInfoController {
 
     @RequestMapping("/list2")
     @RequiresPermissions("sys:companyinfo:list")
-    public R list2(@RequestParam Map<String, Object> params){
-        PageUtils page = companyInfoService.getCompanyList(params);
+    public R list2(@RequestParam Map<String, Object> params,HttpServletRequest request){
+
+        String QUERY_FILE_PATH = request.getScheme() + "://" +
+                request.getServerName() + ":" + request.getServerPort() +
+                request.getContextPath() + "/";
+        PageUtils page = companyInfoService.getCompanyList(params,QUERY_FILE_PATH);
 
         return R.ok().put("page", page);
     }
@@ -76,6 +81,8 @@ public class CompanyInfoController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:companyinfo:save")
     public R save(@RequestBody CompanyInfoEntity companyInfo){
+
+        ValidatorUtils.validateEntity(companyInfo, UpdateGroup.class);
         companyInfoService.insert(companyInfo);
 
         return R.ok();

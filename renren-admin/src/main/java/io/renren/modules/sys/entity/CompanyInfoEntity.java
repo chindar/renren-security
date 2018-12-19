@@ -2,7 +2,11 @@ package io.renren.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -24,45 +28,75 @@ public class CompanyInfoEntity implements Serializable {
     /**
      *
      */
+    @NotBlank(message="公司名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String name;
     /**
      *
      */
+    @NotNull(message="城市不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private Integer cityId;
     /**
      * 法人
      */
+    @NotBlank(message="法人不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String legalPersonName;
     /**
      *
      */
+    @NotBlank(message="地址不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String address;
     /**
      *
      */
+    @NotBlank(message="邮箱不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String email;
     /**
      * 邮编
      */
+    @NotBlank(message="邮编不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String zipCode;
     /**
      *
      */
+    @NotBlank(message="联系人不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String contactName;
     /**
      *
      */
+    @NotBlank(message="电话不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String phone;
     /**
      *
      */
+    @NotBlank(message="营业执照不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String businessFileid;
     /**
      *
      */
+    @NotBlank(message="法人身份证不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String cardFileid;
 
     private String cityName;
+
+    private String businessFileUrl;
+
+    private String cardFileUrl;
+
+    public String getBusinessFileUrl() {
+        return businessFileUrl;
+    }
+
+    public void setBusinessFileUrl(String businessFileUrl) {
+        this.businessFileUrl = businessFileUrl;
+    }
+
+    public String getCardFileUrl() {
+        return cardFileUrl;
+    }
+
+    public void setCardFileUrl(String cardFileUrl) {
+        this.cardFileUrl = cardFileUrl;
+    }
 
     public String getCityName() {
         return cityName;
