@@ -64,7 +64,7 @@ $(function () {
                         index: 'business_fileid',
                         width: 80,
                         formatter: function(value, options, row){
-                            return '<img class="caozuo" src="'+row.businessFileUrl+'">';
+                            return '<img src="'+row.businessFileUrl+'">';
                         }
                     }, 
                     {
@@ -73,7 +73,7 @@ $(function () {
                         index: 'card_fileid',
                         width: 80,
                         formatter: function(value, options, row){
-                            return '<img class="caozuo" src="'+row.cardFileUrl+'">';
+                            return '<img src="'+row.cardFileUrl+'">';
                         }
                     }
                             ],
@@ -100,7 +100,12 @@ $(function () {
         gridComplete: function () {
             //隐藏grid底部滚动条
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
-        }
+        },
+        onCellSelect: function (rowid,iCol,cellcontent,e) {
+            var strs= new Array(); //定义一数组
+            strs=cellcontent.split("\"");
+            console.log(strs[1]);
+        },
     });
     $.ajax({
         type: "POST",
@@ -163,6 +168,49 @@ $(function () {
             }
         }
     });
+    $(".pic_class").click(function(event){
+        event.stopPropagation();
+        var _this = $(this);//将当前的pimg元素作为_this传入函数
+        imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+    });
+    function imgShow(outerdiv, innerdiv, bigimg, _this){
+        var src = _this.attr("src");//获取当前点击的pimg元素中的src属性
+        $(bigimg).attr("src", src);//设置#bigimg元素的src属性
+
+        /*获取当前点击图片的真实大小，并显示弹出层及大图*/
+        $("<img/>").attr("src", src).load(function(){
+            var windowW = $(window).width();//获取当前窗口宽度
+            var windowH = $(window).height();//获取当前窗口高度
+            var realWidth = this.width;//获取图片真实宽度
+            var realHeight = this.height;//获取图片真实高度
+            var imgWidth, imgHeight;
+            var scale = 0.8;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+
+            if(realHeight>windowH*scale) {//判断图片高度
+                imgHeight = windowH*scale;//如大于窗口高度，图片高度进行缩放
+                imgWidth = imgHeight/realHeight*realWidth;//等比例缩放宽度
+                if(imgWidth>windowW*scale) {//如宽度扔大于窗口宽度
+                    imgWidth = windowW*scale;//再对宽度进行缩放
+                }
+            } else if(realWidth>windowW*scale) {//如图片高度合适，判断图片宽度
+                imgWidth = windowW*scale;//如大于窗口宽度，图片宽度进行缩放
+                imgHeight = imgWidth/realWidth*realHeight;//等比例缩放高度
+            } else {//如果图片真实高度和宽度都符合要求，高宽不变
+                imgWidth = realWidth;
+                imgHeight = realHeight;
+            }
+            $(bigimg).css("width",imgWidth);//以最终的宽度对图片缩放
+
+            var w = (windowW-imgWidth)/2;//计算图片与窗口左边距
+            var h = (windowH-imgHeight)/2;//计算图片与窗口上边距
+            $(innerdiv).css({"top":h, "left":w});//设置#innerdiv的top和left属性
+            $(outerdiv).fadeIn("fast");//淡入显示#outerdiv及.pimg
+        });
+
+        $(outerdiv).click(function(){//再次点击淡出消失弹出层
+            $(this).fadeOut("fast");
+        });
+    }
 });
 
 var vm = new Vue({
@@ -179,23 +227,23 @@ methods: {
     query: function () {
         vm.reload();
     }
-,
+    ,
     add: function () {
         vm.showList = false;
         vm.title = "新增";
-        vm.companyInfo = { cityId: ''
+        vm.companyInfo = {
+            cityId: ''
             // businessFileUrl : 'http://localhost:8080/renren-admin/sys/companyinfo/getFile?fileId=1545211156491&dbname=businessFile'
         };
-        $("#aaa").attr("src","/renren-admin/statics/default.png")
-        $("#bbb").attr("src","/renren-admin/statics/default.png")
+        $("#aaa").attr("src", "/renren-admin/statics/default.png")
+        $("#bbb").attr("src", "/renren-admin/statics/default.png")
     }
-,
+    ,
     update: function (event) {
         var id =
-        getSelectedRow();
-        if (id== null
-    )
-        {
+            getSelectedRow();
+        if (id == null
+        ) {
             return;
         }
         vm.showList = false;
@@ -203,10 +251,10 @@ methods: {
 
         vm.getInfo(id)
     }
-,
+    ,
     saveOrUpdate: function (event) {
         var url = vm
-    .companyInfo.id ==
+            .companyInfo.id ==
         null ? "sys/companyinfo/save" : "sys/companyinfo/update";
         $.ajax({
             type: "POST",
@@ -224,7 +272,7 @@ methods: {
             }
         });
     }
-,
+    ,
     del: function (event) {
         var ids = getSelectedRows();
         if (ids == null) {
@@ -249,19 +297,19 @@ methods: {
             });
         });
     }
-,
+    ,
     getInfo: function (id) {
-        $.get(baseURL + "sys/companyinfo/info/" +id, function (r) {
+        $.get(baseURL + "sys/companyinfo/info/" + id, function (r) {
             vm.companyInfo = r.companyInfo;
         });
     }
-,
+    ,
     reload: function (event) {
         vm.showList = true;
         var page = $("#jqGrid").jqGrid('getGridParam', 'page');
         $("#jqGrid").jqGrid('setGridParam', {
             page: page
         }).trigger("reloadGrid");
-    }
+    },
 }
 });
