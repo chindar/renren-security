@@ -5,24 +5,24 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.sys.entity.CompanyInfoEntity" id="companyInfoMap">
-                    <result property="id" column="id"/>
-                    <result property="name" column="name"/>
-                    <result property="cityId" column="city_id"/>
-                    <result property="legalPersonName" column="legal_person_name"/>
-                    <result property="address" column="address"/>
-                    <result property="email" column="email"/>
-                    <result property="zipCode" column="zip_code"/>
-                    <result property="contactName" column="contact_name"/>
-                    <result property="phone" column="phone"/>
-                    <result property="
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="cityId" column="city_id"/>
+        <result property="legalPersonName" column="legal_person_name"/>
+        <result property="address" column="address"/>
+        <result property="email" column="email"/>
+        <result property="zipCode" column="zip_code"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="phone" column="phone"/>
+        <result property="businessFileid" column="business_fileid"/>
+        <result property="cardFileid" column="card_fileid"/>
+        <result property="cityName" column="cityName"/>
+    </resultMap>
 
-
-businessFileid" column="
-
-
-business_fileid"/>
-                    <result property="cardFileid" column="card_fileid"/>
-            </resultMap>
-
+    <select id="getCompanyList" resultMap="companyInfoMap">
+        select  a.*,b.`name` as cityName from tb_company_info a
+        LEFT JOIN tb_city_info b
+        ON a.city_id = b.id
+    </select>
 
 </mapper>

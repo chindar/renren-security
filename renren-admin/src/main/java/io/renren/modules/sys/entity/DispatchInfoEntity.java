@@ -27,10 +27,18 @@ public class DispatchInfoEntity implements Serializable {
 	 * 月份
 	 */
 	private String month;
-	/**
-	 * 快递员id
-	 */
-	private Integer courierId;
+
+	private String cityName;
+
+	private String area;
+
+	private String site;
+
+	private String courierName;
+
+	private String erpId;
+
+	private String remark;
 	/**
 	 * 
 	 */
@@ -56,49 +64,36 @@ public class DispatchInfoEntity implements Serializable {
 	 */
 	private String afterSale;
 	/**
-	 * 商家接货
-	 */
-	private String sellerPick;
-	/**
 	 * 工资
 	 */
 	private BigDecimal salary;
 	/**
 	 * 
 	 */
-	private Integer creater;
+	private BigDecimal totalMoney;
 	/**
 	 * 
 	 */
-	private Date createDate;
+	private Integer firstCount;
 	/**
 	 * 
 	 */
-	private Integer modify;
+	private Integer againCount;
 	/**
 	 * 
 	 */
-	private Date modifyDate;
-	/**
-	 * 1:删除0：正常
-	 */
-	private Integer isDelete;
+	private Integer otherCount;
+
+	private Integer badCount;
     /**
      * 扣款
      */
 	private BigDecimal deductMoney;
 
-	private String cityName;
+	private BigDecimal fineMoney;
 
-	private String area;
+	private Integer complaintCount;
 
-	private String site;
-
-	private String courierName;
-
-	private String erpId;
-
-	private String remark;
 
 	public String getRemark() {
 		return remark;
@@ -181,18 +176,6 @@ public class DispatchInfoEntity implements Serializable {
 		return month;
 	}
 	/**
-	 * 设置：快递员id
-	 */
-	public void setCourierId(Integer courierId) {
-		this.courierId = courierId;
-	}
-	/**
-	 * 获取：快递员id
-	 */
-	public Integer getCourierId() {
-		return courierId;
-	}
-	/**
 	 * 设置：
 	 */
 	public void setAllOrderTotal(Integer allOrderTotal) {
@@ -265,18 +248,6 @@ public class DispatchInfoEntity implements Serializable {
 		return afterSale;
 	}
 	/**
-	 * 设置：商家接货
-	 */
-	public void setSellerPick(String sellerPick) {
-		this.sellerPick = sellerPick;
-	}
-	/**
-	 * 获取：商家接货
-	 */
-	public String getSellerPick() {
-		return sellerPick;
-	}
-	/**
 	 * 设置：工资
 	 */
 	public void setSalary(BigDecimal salary) {
@@ -288,64 +259,60 @@ public class DispatchInfoEntity implements Serializable {
 	public BigDecimal getSalary() {
 		return salary;
 	}
-	/**
-	 * 设置：
-	 */
-	public void setCreater(Integer creater) {
-		this.creater = creater;
+
+	public BigDecimal getTotalMoney() {
+		return totalMoney;
 	}
-	/**
-	 * 获取：
-	 */
-	public Integer getCreater() {
-		return creater;
+
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
 	}
-	/**
-	 * 设置：
-	 */
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+
+	public Integer getFirstCount() {
+		return firstCount;
 	}
-	/**
-	 * 获取：
-	 */
-	public Date getCreateDate() {
-		return createDate;
+
+	public void setFirstCount(Integer firstCount) {
+		this.firstCount = firstCount;
 	}
-	/**
-	 * 设置：
-	 */
-	public void setModify(Integer modify) {
-		this.modify = modify;
+
+	public Integer getAgainCount() {
+		return againCount;
 	}
-	/**
-	 * 获取：
-	 */
-	public Integer getModify() {
-		return modify;
+
+	public void setAgainCount(Integer againCount) {
+		this.againCount = againCount;
 	}
-	/**
-	 * 设置：
-	 */
-	public void setModifyDate(Date modifyDate) {
-		this.modifyDate = modifyDate;
+
+	public Integer getOtherCount() {
+		return otherCount;
 	}
-	/**
-	 * 获取：
-	 */
-	public Date getModifyDate() {
-		return modifyDate;
+
+	public void setOtherCount(Integer otherCount) {
+		this.otherCount = otherCount;
 	}
-	/**
-	 * 设置：1:删除0：正常
-	 */
-	public void setIsDelete(Integer isDelete) {
-		this.isDelete = isDelete;
+
+	public Integer getBadCount() {
+		return badCount;
 	}
-	/**
-	 * 获取：1:删除0：正常
-	 */
-	public Integer getIsDelete() {
-		return isDelete;
+
+	public void setBadCount(Integer badCount) {
+		this.badCount = badCount;
+	}
+
+	public BigDecimal getFineMoney() {
+		return fineMoney;
+	}
+
+	public void setFineMoney(BigDecimal fineMoney) {
+		this.fineMoney = fineMoney;
+	}
+
+	public Integer getComplaintCount() {
+		return complaintCount;
+	}
+
+	public void setComplaintCount(Integer complaintCount) {
+		this.complaintCount = complaintCount;
 	}
 }

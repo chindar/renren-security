@@ -155,9 +155,10 @@ public class PactInfoController {
     @RequestMapping("downloadFile")
     public void downloadFile(
             @RequestParam(value = "fileId", defaultValue = "") String fileId,
+            @RequestParam(value = "dbname",defaultValue = "") String dbname,
             HttpServletResponse response) {
         try {
-            String dbname = "pact";
+//            String dbname = "pact";
             MongoUtils mongo = new MongoUtils();
             HashMap<String, Object> params = new HashMap<String, Object>(4);
             params.put("fileId", fileId);

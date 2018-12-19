@@ -56,14 +56,21 @@ public class CompanyInfoEntity implements Serializable {
     /**
      *
      */
-    private String
-
-
-            businessFileid;
+    private String businessFileid;
     /**
      *
      */
     private String cardFileid;
+
+    private String cityName;
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

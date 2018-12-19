@@ -47,7 +47,7 @@ public class PactInfoServiceImpl extends ServiceImpl<PactInfoDao, PactInfoEntity
         if (list.size() > 0){
             for (PactInfoEntity info: list) {
                 if (Tools.notEmpty(info.getFileId())){
-                    info.setFileUrl(MessageFormat.format("{0}sys/pactinfo/downloadFile?fileId={1}", path, info.getFileId()));
+                    info.setFileUrl(MessageFormat.format("{0}sys/pactinfo/downloadFile?fileId={1}&dbname={2}", path, info.getFileId(),"pact"));
                 }
             }
         }

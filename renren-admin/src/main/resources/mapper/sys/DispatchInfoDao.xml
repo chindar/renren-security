@@ -7,38 +7,35 @@
     <resultMap type="io.renren.modules.sys.entity.DispatchInfoEntity" id="dispatchInfoMap">
             <result property="id" column="id"/>
             <result property="month" column="month"/>
-            <result property="courierId" column="courier_id"/>
+            <result property="area" column="area"/>
+            <result property="cityName" column="city_name"/>
+            <result property="site" column="site"/>
+            <result property="courierName" column="courier_name"/>
+            <result property="erpId" column="erp_id"/>
+            <result property="remark" column="remark"/>
             <result property="allOrderTotal" column="all_order_total"/>
             <result property="countOrderTotal" column="count_order_total"/>
             <result property="large" column="large"/>
             <result property="small" column="small"/>
             <result property="thrIdentical" column="thr_identical"/>
             <result property="afterSale" column="after_sale"/>
-            <result property="sellerPick" column="seller_pick"/>
             <result property="salary" column="salary"/>
-            <result property="creater" column="creater"/>
-            <result property="createDate" column="create_date"/>
-            <result property="modify" column="modify"/>
-            <result property="modifyDate" column="modify_date"/>
-            <result property="isDelete" column="is_delete"/>
+            <result property="totalMoney" column="total_money"/>
+            <result property="firstCount" column="first_count"/>
+            <result property="againCount" column="again_count"/>
+            <result property="otherCount" column="other_count"/>
+            <result property="badCount" column="bad_count"/>
             <result property="deductMoney" column="deduct_money"/>
-            <result property="cityName" column="cityName"/>
-            <result property="area" column="area"/>
-            <result property="site" column="site"/>
-            <result property="courierName" column="courier_name"/>
-            <result property="erpId" column="erp_id"/>
+            <result property="fineMoney" column="fine_money"/>
+            <result property="complaintCount" column="complaint_count"/>
     </resultMap>
 
     <select id="getDispatchList" parameterType="io.renren.modules.sys.entity.DispatchInfoEntity" resultMap="dispatchInfoMap">
-        SELECT a.*,b.courier_name,b.area,b.site,b.erp_id,c.`name` as cityName
+        SELECT a.*
         FROM tb_dispatch_info a
-        LEFT JOIN tb_courier b
-        ON a.courier_id = b.id
-        LEFT JOIN tb_city_info c
-        ON b.city_id = c.id
         where 1=1
         <if test="courierName != null and courierName != ''">
-            and b.courier_name like CONCAT('%',ltrim(rtrim(#{courierName})),'%')
+            and a.courier_name like CONCAT('%',ltrim(rtrim(#{courierName})),'%')
         </if>
         <if test="month != null and month != ''">
             and a.month = #{month}
@@ -82,14 +79,32 @@
             <if test="month != null and month != ''">
                 month,
             </if>
-            <if test="courierId != null and courierId != ''">
-                courier_id,
+            <if test="area != null and area != ''">
+                area,
+            </if>
+            <if test="cityName != null and cityName != ''">
+                city_name,
+            </if>
+            <if test="site != null and site != ''">
+                site,
+            </if>
+            <if test="erpId != null and erpId != ''">
+                erp_id,
+            </if>
+            <if test="courierName != null and courierName != ''">
+                courier_name,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
             </if>
             <if test="allOrderTotal != null and allOrderTotal != ''">
                 all_order_total,
             </if>
             <if test="countOrderTotal != null and countOrderTotal != ''">
                 count_order_total,
+            </if>
+            <if test="totalMoney != null and totalMoney != ''">
+                total_money,
             </if>
             <if test="large != null and large != ''">
                 large,
@@ -103,31 +118,61 @@
             <if test="afterSale != null and afterSale != ''">
                 after_sale,
             </if>
-            <if test="sellerPick != null and sellerPick != ''">
-                seller_pick,
+            <if test="firstCount != null and firstCount != ''">
+                first_count,
             </if>
-            <if test="salary != null and salary != ''">
-                salary,
+            <if test="againCount != null and againCount != ''">
+                again_count,
+            </if>
+            <if test="otherCount != null and otherCount != ''">
+                other_count,
+            </if>
+            <if test="badCount != null and badCount != ''">
+                bad_count,
+            </if>
+            <if test="complaintCount != null and complaintCount != ''">
+                complaint_count,
+            </if>
+            <if test="fineMoney != null and fineMoney != ''">
+                fine_money,
             </if>
             <if test="deductMoney != null and deductMoney != ''">
                 deduct_money,
             </if>
-            <if test="remark != null and remark != ''">
-                remark,
+            <if test="salary != null and salary != ''">
+                salary,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="month != null and month != ''">
                 #{month},
             </if>
-            <if test="courierId != null and courierId != ''">
-                #{courierId},
+            <if test="area != null and area != ''">
+                #{area},
+            </if>
+            <if test="cityName != null and cityName != ''">
+                #{cityName},
+            </if>
+            <if test="site != null and site != ''">
+                #{site},
+            </if>
+            <if test="erpId != null and erpId != ''">
+                #{erpId},
+            </if>
+            <if test="courierName != null and courierName != ''">
+                #{courierName},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark},
             </if>
             <if test="allOrderTotal != null and allOrderTotal != ''">
                 #{allOrderTotal},
             </if>
             <if test="countOrderTotal != null and countOrderTotal != ''">
                 #{countOrderTotal},
+            </if>
+            <if test="totalMoney != null and totalMoney != ''">
+                #{totalMoney},
             </if>
             <if test="large != null and large != ''">
                 #{large},
@@ -141,31 +186,39 @@
             <if test="afterSale != null and afterSale != ''">
                 #{afterSale},
             </if>
-            <if test="sellerPick != null and sellerPick != ''">
-                #{sellerPick},
+            <if test="firstCount != null and firstCount != ''">
+                #{firstCount},
             </if>
-            <if test="salary != null and salary != ''">
-                #{salary},
+            <if test="againCount != null and againCount != ''">
+                #{againCount},
+            </if>
+            <if test="otherCount != null and otherCount != ''">
+                #{otherCount},
+            </if>
+            <if test="badCount != null and badCount != ''">
+                #{badCount},
+            </if>
+            <if test="complaintCount != null and complaintCount != ''">
+                #{complaintCount},
+            </if>
+            <if test="fineMoney != null and fineMoney != ''">
+                #{fineMoney},
             </if>
             <if test="deductMoney != null and deductMoney != ''">
                 #{deductMoney},
             </if>
-            <if test="remark != null and remark != ''">
-                #{remark},
+            <if test="salary != null and salary != ''">
+                #{salary},
             </if>
         </trim>
     </insert>
 
     <!--导出数据查询-->
     <select id="getExportData"  resultMap="dispatchInfoMap">
-        SELECT a.*,b.courier_name,b.area,b.site,b.erp_id,c.`name` as cityName
-        FROM tb_dispatch_info a
-        LEFT JOIN tb_courier b
-        ON a.courier_id = b.id
-        LEFT JOIN tb_city_info c
-        ON b.city_id = c.id
+        SELECT *
+        FROM tb_dispatch_info
         where 1=1
-        and a.id in
+        and id in
         <foreach collection="ids" index="index" item="id"
                  open="(" separator="," close=")">
             #{id}

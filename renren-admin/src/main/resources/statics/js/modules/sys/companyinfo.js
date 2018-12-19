@@ -1,71 +1,71 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'sys/companyinfo/list',
+        url: baseURL + 'sys/companyinfo/list2',
         datatype: "json",
         colModel: [
-                                                {
-                        label: 'id',
-                        name: 'id',
-                        index: 'id',
-                        width: 50,
-                        key: true
-                    },
-                                                                {
-                        label: '',
+                    // {
+                    //     label: 'id',
+                    //     name: 'id',
+                    //     index: 'id',
+                    //     width: 50,
+                    //     key: true
+                    // },
+                    {
+                        label: '公司名称',
                         name: 'name',
                         index: 'name',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
-                        name: 'cityId',
-                        index: 'city_id',
+                    {
+                        label: '城市',
+                        name: 'cityName',
+                        index: 'city_name',
                         width: 80
                     }, 
-                                                                {
+                    {
                         label: '法人',
                         name: 'legalPersonName',
                         index: 'legal_person_name',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
+                    {
+                        label: '地址',
                         name: 'address',
                         index: 'address',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
+                    {
+                        label: '邮箱',
                         name: 'email',
                         index: 'email',
                         width: 80
                     }, 
-                                                                {
+                    {
                         label: '邮编',
                         name: 'zipCode',
                         index: 'zip_code',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
+                    {
+                        label: '联系人姓名',
                         name: 'contactName',
                         index: 'contact_name',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
+                    {
+                        label: '联系人电话',
                         name: 'phone',
                         index: 'phone',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
+                    {
+                        label: '营业执照',
                         name: 'businessFileid',
                         index: 'business_fileid',
                         width: 80
                     }, 
-                                                                {
-                        label: '',
+                    {
+                        label: '法人身份证',
                         name: 'cardFileid',
                         index: 'card_fileid',
                         width: 80
@@ -96,6 +96,67 @@ $(function () {
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
+    $.ajax({
+        type: "POST",
+        url: baseURL + "sys/cityinfo/list",
+        contentType: "application/json",
+        // data: JSON.stringify(ids),
+        success: function (r) {
+            if (r.code == 0) {
+                // alert('操作成功', function (index) {
+                //     $("#jqGrid").trigger("reloadGrid");
+                // });
+                vm.citylist = r.page.list
+            } else {
+                alert(r.msg);
+            }
+        }
+    });
+    new AjaxUpload('#upload', {
+        action: baseURL + "sys/companyinfo/upload",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        data:{dbname:"businessFile"},
+        onSubmit:function(file, extension){
+            if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                alert('只支持jpg、png格式的图片！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                vm.companyInfo.businessFileid = r.data.fileId
+                $("#aaa").attr("src",r.data.fileUrl)
+                // vm.companyInfo.businessFileUrl = r.data.fileUrl
+            }else{
+                alert(r.msg);
+            }
+            console.log(vm.companyInfo);
+        }
+    });
+    new AjaxUpload('#upload2', {
+        action: baseURL + "sys/companyinfo/upload",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        data:{dbname:"cardFile"},
+        onSubmit:function(file, extension){
+            if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                alert('只支持jpg、png格式的图片！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                vm.companyInfo.cardFileid = r.data.fileId
+                $("#bbb").attr("src",r.data.fileUrl)
+                // vm.companyInfo.cardFileUrl = r.data.fileUrl
+            }else{
+                alert(r.msg);
+            }
+        }
+    });
 });
 
 var vm = new Vue({
@@ -103,8 +164,10 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
-companyInfo: {
-}
+        companyInfo: {
+
+        },
+        citylist: []
 },
 methods: {
     query: function () {
@@ -114,7 +177,9 @@ methods: {
     add: function () {
         vm.showList = false;
         vm.title = "新增";
-        vm.companyInfo = {};
+        vm.companyInfo = { cityId: ''
+            // businessFileUrl : 'http://localhost:8080/renren-admin/sys/companyinfo/getFile?fileId=1545211156491&dbname=businessFile'
+        };
     }
 ,
     update: function (event) {
