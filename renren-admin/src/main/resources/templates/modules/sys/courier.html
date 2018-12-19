@@ -30,12 +30,7 @@
                 </select>
             </div>
 
-            <!--<#if shiro.hasPermission("sys:courier:save")>-->
-                <!--<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>-->
-            <!--</#if>-->
-            <!--<#if shiro.hasPermission("sys:courier:update")>-->
-                <!--<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
-            <!--</#if>-->
+            <a class="btn btn-primary" @click="download"><i class="fa fa-download"></i>&nbsp;下载导入摸板</a>
             <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;录入配送员</a>
             <#if shiro.hasPermission("sys:courier:delete")>
                 <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>

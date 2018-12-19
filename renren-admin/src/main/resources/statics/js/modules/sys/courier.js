@@ -3,22 +3,40 @@ $(function () {
         url: baseURL + 'sys/courier/list',
         datatype: "json",
         colModel: [
+            // 片区	城市	站点	erp账号	配送员姓名	身份证	电话	银行卡号	开户行	联行号	入职时间	离职时间	状态	备注
             {
-                label: 'ID',
+                label: '片区',
+                name: 'area',
+                index: 'area',
+                width: 80
+            },{
+                label: '城市',
+                name: 'cityName',
+                index: 'city_name',
+                width: 80
+            },
+            {
+                label: '站点',
+                name: 'site',
+                index: 'site',
+                width: 80
+            },
+            {
+                label: 'erp账号',
                 name: 'erpId',
                 index: 'erp_id',
                 width: 80
             },
             {
-                label: '合同名称',
-                name: 'pactName',
-                index: 'pact_name',
+                label: '配送员姓名',
+                name: 'courierName',
+                index: 'courier_name',
                 width: 80
             },
             {
-                label: '姓名',
-                name: 'courierName',
-                index: 'courier_name',
+                label: '身份证',
+                name: 'cardId',
+                index: 'card_id',
                 width: 80
             },
             {
@@ -28,9 +46,33 @@ $(function () {
                 width: 80
             },
             {
-                label: '身份证号',
-                name: 'cardId',
-                index: 'card_id',
+                label: '银行卡号',
+                name: 'bankCardId',
+                index: 'bank_card_id',
+                width: 80
+            },
+            {
+                label: '开户行',
+                name: 'depositBank',
+                index: 'deposit_bank',
+                width: 80
+            },
+            {
+                label: '联行号',
+                name: 'joinBankNumber',
+                index: 'Join_bank_number',
+                width: 80
+            },
+            {
+                label: '入职时间',
+                name: 'entryDate',
+                index: 'entry_date',
+                width: 80
+            },
+            {
+                label: '离职时间',
+                name: 'leaveDate',
+                index: 'leave_date',
                 width: 80
             },
             {
@@ -40,91 +82,22 @@ $(function () {
                 width: 80,
                 formatter: function (value, options, row) {
                     return value === 0 ?
-                        '<span class="label label-danger">未绑定第三方</span>' :
-                        '<span class="label label-success">已绑定第三方</span>';
+                        '<span class="label label-danger">已离职</span>' :
+                        '<span class="label label-success">在职</span>';
                 }
             },
+            {
+                label: '备注',
+                name: 'comment',
+                index: 'comment',
+                width: 80
+            }
             // {
-            //     label: '银行卡号',
-            //     name: 'bankCardId',
-            //     index: 'bank_card_id',
+            //     label: '合同名称',
+            //     name: 'pactName',
+            //     index: 'pact_name',
             //     width: 80
             // },
-            // {
-            //     label: '开户行名称',
-            //     name: 'depositBank',
-            //     index: 'deposit_bank',
-            //     width: 80
-            // },
-            // {
-            //     label: '联行号',
-            //     name: 'joinBankNumber',
-            //     index: 'Join_bank_number',
-            //     width: 80
-            // },
-            // {
-            //     label: '入职时间',
-            //     name: 'entryDate',
-            //     index: 'entry_date',
-            //     width: 80
-            // },
-            // {
-            //     label: '离职时间',
-            //     name: 'leaveDate',
-            //     index: 'leave_date',
-            //     width: 80
-            // },
-            //
-            // {
-            //     label: '备注',
-            //     name: 'comment',
-            //     index: 'comment',
-            //     width: 80
-            // },
-            //
-            // {
-            //     label: '片区',
-            //     name: 'area',
-            //     index: 'area',
-            //     width: 80
-            // },
-            // {
-            //     label: '站点',
-            //     name: 'site',
-            //     index: 'site',
-            //     width: 80
-            // },
-            //
-            // {
-            //     label: '城市',
-            //     name: 'cityId',
-            //     index: 'city_id',
-            //     width: 80
-            // },
-            // {
-            //     label: '创建人',
-            //     name: 'creater',
-            //     index: 'creater',
-            //     width: 80
-            // },
-            // {
-            //     label: '创建时间',
-            //     name: 'createDate',
-            //     index: 'create_date',
-            //     width: 80
-            // },
-            // {
-            //     label: '修改人',
-            //     name: 'modify',
-            //     index: 'modify',
-            //     width: 80
-            // },
-            // {
-            //     label: '修改时间',
-            //     name: 'modifyDate',
-            //     index: 'modify_date',
-            //     width: 80
-            // }
         ],
         viewrecords: true,
         height: 385,
@@ -332,6 +305,14 @@ var vm = new Vue({
                     }
                 }
             });
+        },
+
+        /**********************************************************************
+         * 下载配送员信息导入模板
+         * @author Wang Chinda
+         **********************************************************************/
+        download: function () {
+            location.href = encodeURI("/renren-admin/statics/录入快递员模板.xlsx");
         },
 
         /**********************************************************************
