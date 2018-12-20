@@ -57,16 +57,16 @@ $(function () {
                         name: 'phone',
                         index: 'phone',
                         width: 80
-                    }, 
+                    },
                     {
                         label: '营业执照',
                         name: 'businessFileid',
                         index: 'business_fileid',
                         width: 80,
-                        formatter: function(value, options, row){
-                            return '<img src="'+row.businessFileUrl+'">';
+                        formatter: function (value, options, row) {
+                            return '<img src="' + row.businessFileUrl + '">';
                         }
-                    }, 
+                    },
                     {
                         label: '法人身份证',
                         name: 'cardFileid',
@@ -104,7 +104,8 @@ $(function () {
         onCellSelect: function (rowid,iCol,cellcontent,e) {
             var strs= new Array(); //定义一数组
             strs=cellcontent.split("\"");
-            console.log(strs[1]);
+            // console.log(strs[1]);
+            imgShow("#outerdiv", "#innerdiv", "#bigimg", strs[1].replace(/amp;/g,""));
         },
     });
     $.ajax({
@@ -171,10 +172,10 @@ $(function () {
     $(".pic_class").click(function(event){
         event.stopPropagation();
         var _this = $(this);//将当前的pimg元素作为_this传入函数
-        imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+        imgShow("#outerdiv", "#innerdiv", "#bigimg", _this.attr("src"));
     });
-    function imgShow(outerdiv, innerdiv, bigimg, _this){
-        var src = _this.attr("src");//获取当前点击的pimg元素中的src属性
+    function imgShow(outerdiv, innerdiv, bigimg, src){
+        // var src = _this.attr("src");//获取当前点击的pimg元素中的src属性
         $(bigimg).attr("src", src);//设置#bigimg元素的src属性
 
         /*获取当前点击图片的真实大小，并显示弹出层及大图*/
