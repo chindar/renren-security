@@ -96,6 +96,12 @@
       <if test="cardId != null and cardId != ''">
         AND a.card_id = #{cardId}
       </if>
+      <if test="phone != null and phone != ''">
+        AND a.phone = #{phone}
+      </if>
+      <if test="pactId != null and pactId != ''">
+          AND a.pact_id = #{pactId}
+      </if>
     </select>
 
 

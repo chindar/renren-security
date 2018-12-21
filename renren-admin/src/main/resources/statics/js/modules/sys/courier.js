@@ -159,7 +159,8 @@ var vm = new Vue({
         title: null,
         keyword: 0,
         q: {
-            name: null
+            name: null,
+            pactId: null
         },
         courier: {},
         pactId: '',
@@ -247,17 +248,17 @@ var vm = new Vue({
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             if (vm.keyword == 0) {
                 $("#jqGrid").jqGrid('setGridParam', {
-                    postData: {"courierName": vm.q.name},
+                    postData: {"courierName": vm.q.name, "pactId": vm.pactId},
                     page: page
                 }).trigger("reloadGrid");
             } else if (vm.keyword == 1) {
                 $("#jqGrid").jqGrid('setGridParam', {
-                    postData: {"cardId": vm.q.name},
+                    postData: {"cardId": vm.q.name, "pactId": vm.pactId},
                     page: page
                 }).trigger("reloadGrid");
             } else if (vm.keyword == 2) {
                 $("#jqGrid").jqGrid('setGridParam', {
-                    postData: {"phone": vm.q.name},
+                    postData: {"phone": vm.q.name, "pactId": vm.pactId},
                     page: page
                 }).trigger("reloadGrid");
             } else {
