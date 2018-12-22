@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
@@ -242,9 +243,12 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
                 cell = row.createCell(11);
                 cell.setCellValue(vo.getLeaveDate());
                 // 状态
-                String status = vo.getStatus() == 1 ? "在职" : "已离职";
-                cell = row.createCell(12);
-                cell.setCellValue(status);
+                Integer statusI = vo.getStatus();
+                if (ObjectUtil.isNotNull(statusI)) {
+                    int status = statusI.intValue();
+                    cell = row.createCell(12);
+                    cell.setCellValue(status == 1 ? "在职" : status == 0 ? "已离职" : "");
+                }
                 // 备注
                 cell = row.createCell(13);
                 cell.setCellValue(vo.getComment());
