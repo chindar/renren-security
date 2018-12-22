@@ -105,7 +105,7 @@
     </select>
 
     <select id="selectByIds" resultType="io.renren.modules.sys.vo.CourierVo">
-         SELECT
+      SELECT
         a.id
         , a.courier_name
         , a.card_id
@@ -134,7 +134,10 @@
       LEFT JOIN tb_city_info c on a.city_id = c.id
       WHERE 1 = 1
       <if test="ids != null and ids.size() != 0">
-          AND a.id IN (#{ids})
+        AND a.id IN
+          <foreach collection="ids" item="id" separator="," open="(" close=")">
+              #{id}
+          </foreach>
       </if>
     </select>
 
