@@ -265,70 +265,92 @@ public class DispatchInfoController {
             row.setHeight((short) 600);
             //月份
             cell = row.createCell(0);
-            cell.setCellValue(vo.getMonth());
+            if(vo.getMonth() != null)
+                cell.setCellValue(vo.getMonth());
             //片区
             cell = row.createCell(1);
-            cell.setCellValue(vo.getArea());
+            if(vo.getArea() != null)
+                cell.setCellValue(vo.getArea());
             //城市
             cell = row.createCell(2);
-            cell.setCellValue(vo.getCityName());
+            if(vo.getCityName() != null)
+                cell.setCellValue(vo.getCityName());
             //站点
             cell = row.createCell(3);
-            cell.setCellValue(vo.getSite());
+            if(vo.getSite() != null)
+                cell.setCellValue(vo.getSite());
             //erp账号
             cell = row.createCell(4);
-            cell.setCellValue(vo.getErpId());
+            if(vo.getErpId() != null)
+                cell.setCellValue(vo.getErpId());
             //配送员姓名
             cell = row.createCell(5);
-            cell.setCellValue(vo.getCourierName());
+            if(vo.getCourierName() != null)
+                cell.setCellValue(vo.getCourierName());
             //备注
             cell = row.createCell(6);
-            cell.setCellValue(vo.getRemark());
+            if(vo.getRemark() != null)
+                cell.setCellValue(vo.getRemark());
             //总单量
             cell = row.createCell(7);
-            cell.setCellValue(vo.getAllOrderTotal());
+            if(vo.getAllOrderTotal() != null)
+                cell.setCellValue(vo.getAllOrderTotal());
             //合计单量
             cell = row.createCell(8);
-            cell.setCellValue(vo.getCountOrderTotal());
+            if(vo.getCountOrderTotal() != null)
+                cell.setCellValue(vo.getCountOrderTotal());
             //费用合计
             cell = row.createCell(9);
-            cell.setCellValue(vo.getTotalMoney().toString());
+            if(vo.getTotalMoney() != null)
+                cell.setCellValue(vo.getTotalMoney().toString());
             //小件
             cell = row.createCell(10);
-            cell.setCellValue(vo.getSmall());
+            if(vo.getSmall() != null)
+                cell.setCellValue(vo.getSmall());
             //大件
             cell = row.createCell(11);
-            cell.setCellValue(vo.getLarge());
+            if(vo.getLarge() != null)
+                cell.setCellValue(vo.getLarge());
             //三同
             cell = row.createCell(12);
-            cell.setCellValue(vo.getThrIdentical());
+            if(vo.getThrIdentical() != null)
+                cell.setCellValue(vo.getThrIdentical());
             //售后取件
             cell = row.createCell(13);
-            cell.setCellValue(vo.getAfterSale());
+            if(vo.getAfterSale() != null)
+                cell.setCellValue(vo.getAfterSale());
             //接货首单量
             cell = row.createCell(14);
-            cell.setCellValue(vo.getFirstCount());
+            if(vo.getFirstCount() != null)
+                cell.setCellValue(vo.getFirstCount());
             //接货续单量
             cell = row.createCell(15);
-            cell.setCellValue(vo.getAgainCount());
+            if(vo.getAgainCount() != null)
+                cell.setCellValue(vo.getAgainCount());
             //其他单量
             cell = row.createCell(16);
-            cell.setCellValue(vo.getOtherCount());
+            if(vo.getOtherCount() != null)
+                cell.setCellValue(vo.getOtherCount());
             //差评
             cell = row.createCell(17);
-            cell.setCellValue(vo.getBadCount());
+            if(vo.getBadCount() != null)
+                cell.setCellValue(vo.getBadCount());
             //投诉
             cell = row.createCell(18);
-            cell.setCellValue(vo.getComplaintCount());
+            if(vo.getComplaintCount() != null)
+                cell.setCellValue(vo.getComplaintCount());
             //罚款合计
             cell = row.createCell(19);
-            cell.setCellValue(vo.getFineMoney().toString());
+            if(vo.getFineMoney() != null)
+                cell.setCellValue(vo.getFineMoney().toString());
             //扣款
             cell = row.createCell(20);
-            cell.setCellValue(vo.getDeductMoney().toString());
+            if(vo.getDeductMoney() != null)
+                cell.setCellValue(vo.getDeductMoney().toString());
             //工资
             cell = row.createCell(21);
-            cell.setCellValue(vo.getSalary().toString());
+            if(vo.getSalary() != null)
+                cell.setCellValue(vo.getSalary().toString());
 
         }
     // 下载文件
