@@ -65,7 +65,8 @@ $(function () {
                         width: 80,
                         sortable: false,
                         formatter: function(value, options, row){
-                            return '<a class="caozuo" href="'+row.fileUrl+'">合同</a>&nbsp;&nbsp;<a class="caozuo">人员</a>';
+                            return '<a class="caozuo" href="'+row.fileUrl+'">合同</a>';
+                                // '&nbsp;&nbsp;<a class="caozuo">人员</a>';
                         }
                     }
                     // ,
@@ -143,6 +144,7 @@ $(function () {
                 // alert(r.url);
                 vm.pactInfo.fileId = r.data.fileId
                 vm.pactInfo.fileName = r.data.fileName
+                $(".filename_class").text(r.data.fileName)
                 // vm.reload();
             }else{
                 alert(r.msg);
@@ -174,6 +176,7 @@ methods: {
         vm.showList = false;
         vm.title = "新增";
         vm.pactInfo = {};
+        $(".filename_class").text("");
     }
 ,
     update: function (event) {
