@@ -9,7 +9,7 @@ $(function () {
                 name: 'area',
                 index: 'area',
                 width: 80
-            },{
+            }, {
                 label: '城市',
                 name: 'cityName',
                 index: 'city_name',
@@ -172,6 +172,15 @@ var vm = new Vue({
             if (newBatchId != null) {
                 this.editBatch(newBatchId);
             }
+        },
+        /**********************************************************************
+         * 监听keyword是否切换
+         * @author Wang Chinda
+         **********************************************************************/
+        keyword: function (newKey, oldKey) {
+            if (newKey != oldKey) {
+                vm.q.name = null;
+            }
         }
     },
     methods: {
@@ -246,16 +255,22 @@ var vm = new Vue({
         reload: function (event) {
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            var postData = $("#jqGrid").jqGrid('getGridParam', 'postData');
+            delete postData.cardId;
+            delete postData.courierName;
+            delete postData.phone;
             if (vm.keyword == 0) {
                 $("#jqGrid").jqGrid('setGridParam', {
                     postData: {"courierName": vm.q.name, "pactId": vm.pactId},
                     page: page
                 }).trigger("reloadGrid");
+
             } else if (vm.keyword == 1) {
                 $("#jqGrid").jqGrid('setGridParam', {
                     postData: {"cardId": vm.q.name, "pactId": vm.pactId},
                     page: page
                 }).trigger("reloadGrid");
+
             } else if (vm.keyword == 2) {
                 $("#jqGrid").jqGrid('setGridParam', {
                     postData: {"phone": vm.q.name, "pactId": vm.pactId},
