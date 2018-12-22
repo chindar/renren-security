@@ -58,5 +58,5 @@ mybatis-plus:
 logging:
   level:
     root: info
-    com.cloud: debug
+    io.renren.modules.sys: debug
   file: logs/${spring.application.name}.log
