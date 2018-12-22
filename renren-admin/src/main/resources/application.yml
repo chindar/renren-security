@@ -6,11 +6,11 @@ server:
     min-spare-threads: 30
   port: 8080
   servlet:
-    context-path: /renren-admin
+    context-path: /admin
 
 spring:
   profiles:
-    active: dev
+    active: prod
   application:
     name: renren-admin
   jackson:
