@@ -175,7 +175,9 @@ methods: {
     add: function () {
         vm.showList = false;
         vm.title = "新增";
-        vm.pactInfo = {};
+        vm.pactInfo = {
+            cityId: ''
+        };
         $(".filename_class").text("");
     }
 ,

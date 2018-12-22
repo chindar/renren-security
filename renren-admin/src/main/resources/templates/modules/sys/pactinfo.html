@@ -66,6 +66,7 @@
                         <div class="col-sm-2 control-label">城市</div>
                         <div class="col-sm-10">
                             <select class="form-control" v-model="pactInfo.cityId" placeholder="选择城市">
+                                <option value="" >请选择城市</option>
                                 <option  v-for="city in citylist"  :value="city.id" >{{city.name}}</option>
                             </select>
                             <!--<input type="text" class="form-control" v-model="pactInfo.cityId" placeholder="选择城市" @click="chooseCity" readonly="readonly"/>-->
