@@ -328,7 +328,7 @@ var vm = new Vue({
          * @author Wang Chinda
          **********************************************************************/
         download: function () {
-            location.href = encodeURI("/renren-admin/statics/录入快递员模板.xlsx");
+            location.href = encodeURI("/admin/statics/录入快递员模板.xlsx");
         },
 
         /**********************************************************************

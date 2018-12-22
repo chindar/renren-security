@@ -236,8 +236,8 @@ methods: {
             cityId: ''
             // businessFileUrl : 'http://localhost:8080/renren-admin/sys/companyinfo/getFile?fileId=1545211156491&dbname=businessFile'
         };
-        $("#aaa").attr("src", "/renren-admin/statics/default.png")
-        $("#bbb").attr("src", "/renren-admin/statics/default.png")
+        $("#aaa").attr("src", "/admin/statics/default.png")
+        $("#bbb").attr("src", "/admin/statics/default.png")
     }
     ,
     update: function (event) {
