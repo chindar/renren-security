@@ -6,6 +6,7 @@ import io.renren.common.utils.R;
 import io.renren.modules.sys.entity.CourierEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -35,5 +36,12 @@ public interface CourierService extends IService<CourierEntity> {
      * @return
      */
     R editBatch(String batchId, String pactId);
+
+    /**
+     * 导出配送员信息
+     * @param ids
+     * @param res
+     */
+    void exportCourier(Integer[] ids, HttpServletResponse res);
 }
 

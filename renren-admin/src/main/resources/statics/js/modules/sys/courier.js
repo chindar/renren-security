@@ -285,6 +285,27 @@ var vm = new Vue({
         },
 
         /**********************************************************************
+         * 导出配送员信息
+         * @author Wang Chinda
+         **********************************************************************/
+        exportCourier: function () {
+            var grid = $("#jqGrid");
+            var ids = grid.getGridParam("selarrrow");
+            console.log();
+            let msg;
+            if (ids.length === 0) {
+                msg = '确定要导出全部的记录？';
+            } else {
+                msg = '确定要导出选中的记录？'
+            }
+            confirm(msg, function () {
+                location.href = "sys/courier/exportCourier?ids=" + ids;
+            });
+
+
+        },
+
+        /**********************************************************************
          * 获取合同信息
          * @author Wang Chinda
          **********************************************************************/

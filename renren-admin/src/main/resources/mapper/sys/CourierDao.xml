@@ -104,5 +104,39 @@
       </if>
     </select>
 
+    <select id="selectByIds" resultType="io.renren.modules.sys.vo.CourierVo">
+         SELECT
+        a.id
+        , a.courier_name
+        , a.card_id
+        , a.phone
+        , a.bank_card_id
+        , a.deposit_bank
+        , a.join_bank_number
+        , a.entry_date
+        , a.leave_date
+        , a.`status`
+        , a.comment
+        , a.erp_id
+        , a.area
+        , a.site
+        , a.pact_id
+        , b.name AS pact_name
+        , a.city_id
+        , c.name AS city_name
+        , a.creater
+        , a.create_date
+        , a.modify
+        , a.modify_date
+        , a.is_delete
+      FROM tb_courier a
+      LEFT JOIN tb_pact_info b on a.pact_id = b.id
+      LEFT JOIN tb_city_info c on a.city_id = c.id
+      WHERE 1 = 1
+      <if test="ids != null and ids.size() != 0">
+          AND a.id IN (#{ids})
+      </if>
+    </select>
+
 
 </mapper>

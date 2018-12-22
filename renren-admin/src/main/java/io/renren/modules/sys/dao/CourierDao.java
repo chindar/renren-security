@@ -30,4 +30,11 @@ public interface CourierDao extends BaseMapper<CourierEntity> {
      * @param batchId
      */
     void updateByBatch(@Param("batchId") String batchId, @Param("pactId") String pactId);
+
+    /**
+     * 查询
+     * @param ids
+     * @return
+     */
+    List<CourierVo> selectByIds(@Param("ids") List<Integer> ids);
 }

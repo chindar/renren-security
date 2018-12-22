@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -79,6 +80,16 @@ public class CourierController {
     @PostMapping("/editPact")
     public R editPact(String batchId, String pactId) {
         return courierService.editBatch(batchId, pactId);
+    }
+
+    /**
+     * 导出配送员信息
+     * @return
+     */
+    @SysLog("导出配送员信息")
+    @GetMapping("/exportCourier")
+    public void exportCourier(HttpServletResponse res, Integer[] ids) {
+        courierService.exportCourier(ids, res);
     }
 
     /**

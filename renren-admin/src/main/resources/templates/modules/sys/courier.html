@@ -29,13 +29,14 @@
                     </option>
                 </select>
             </div>
-
+            <a class="btn btn-default" @click="query">查询</a>
             <a class="btn btn-primary" @click="download"><i class="fa fa-download"></i>&nbsp;下载导入摸板</a>
-            <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;录入配送员</a>
+            <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;录入</a>
+            <a class="btn btn-primary" id="export" @click="exportCourier"><i class="fa fa-plus"></i>&nbsp;导出</a>
             <#if shiro.hasPermission("sys:courier:delete")>
                 <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
             </#if>
-            <a class="btn btn-default" @click="query">搜索</a>
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>

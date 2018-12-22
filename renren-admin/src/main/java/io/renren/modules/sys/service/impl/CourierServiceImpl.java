@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
@@ -19,13 +20,21 @@ import io.renren.modules.sys.entity.CourierEntity;
 import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.service.CourierService;
 import io.renren.modules.sys.vo.CourierVo;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -81,6 +90,7 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
 
     /**
      * 上传文件
+     *
      * @param multipartFile
      * @return
      */
@@ -139,6 +149,7 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
 
     /**
      * 批量更新配送员信息
+     *
      * @param batchId
      * @param pactId
      * @return
@@ -147,6 +158,111 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
     public R editBatch(String batchId, String pactId) {
         courierDao.updateByBatch(batchId, pactId);
         return R.ok();
+    }
+
+    /**
+     * 导出配送员信息
+     *
+     * @param ids
+     * @param res
+     */
+    @Override
+    public void exportCourier(Integer[] ids, HttpServletResponse res) {
+
+        OutputStream bos = null;
+        try {
+            List<CourierVo> courierList = courierDao.selectByIds(Arrays.asList(ids));
+
+            // 第一步，创建一个webbook，对应一个Excel文件
+            XSSFWorkbook wb = new XSSFWorkbook();
+            // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
+            XSSFSheet sheet = wb.createSheet("配送员信息");
+
+            // 设置所有单元格大小 -- 宽度
+            sheet.setDefaultColumnWidth(14);
+            // 设置所有单元格大小 -- 高度
+            sheet.setDefaultRowHeightInPoints(14);
+
+            /**
+             * 数据表内容
+             */
+            // 添加表头标题
+            XSSFRow row = sheet.createRow(0);
+            //设置行高
+            row.setHeight((short) 600);
+            XSSFCell cell = null;
+            // 设置表头名称
+            for (int i = 0; i < templetList.size(); i++) {
+                cell = row.createCell(i);
+                cell.setCellValue(Convert.toStr(templetList.get(i)));
+
+            }
+
+            // 遍历运营数据list
+            for (int i = 0; i < courierList.size(); i++) {
+                CourierVo vo = courierList.get(i);
+                // 确定内容开始行
+                row = sheet.createRow(row.getRowNum() + 1);
+                //设置行高
+                row.setHeight((short) 600);
+                // 片区
+                cell = row.createCell(0);
+                cell.setCellValue(vo.getArea());
+                // 城市
+                cell = row.createCell(1);
+                cell.setCellValue(vo.getCityName());
+                // 站点
+                cell = row.createCell(2);
+                cell.setCellValue(vo.getSite());
+                // erp账号
+                cell = row.createCell(3);
+                cell.setCellValue(vo.getErpId());
+                // 配送员姓名
+                cell = row.createCell(4);
+                cell.setCellValue(vo.getCourierName());
+                // 身份证
+                cell = row.createCell(5);
+                cell.setCellValue(vo.getCardId());
+                // 电话
+                cell = row.createCell(6);
+                cell.setCellValue(vo.getPhone());
+                // 银行卡号
+                cell = row.createCell(7);
+                cell.setCellValue(vo.getBankCardId());
+                // 开户行
+                cell = row.createCell(8);
+                cell.setCellValue(vo.getDepositBank());
+                // 联行号
+                cell = row.createCell(9);
+                cell.setCellValue(vo.getJoinBankNumber());
+                // 入职时间
+                cell = row.createCell(10);
+                cell.setCellValue(vo.getEntryDate());
+                // 离职时间
+                cell = row.createCell(11);
+                cell.setCellValue(vo.getLeaveDate());
+                // 状态
+                String status = vo.getStatus() == 1 ? "在职" : "已离职";
+                cell = row.createCell(12);
+                cell.setCellValue(status);
+                // 备注
+                cell = row.createCell(13);
+                cell.setCellValue(vo.getComment());
+            }
+
+            String filename = "快递员信息.xlsx";
+            res.setHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes("gb2312"), "iso8859-1"));
+            res.addHeader("Pargam", "no-cache");
+            res.addHeader("Cache-Control", "no-cache");
+            res.setContentType("application/vnd.ms-excel;charset=UTF8");
+            bos = new BufferedOutputStream(res.getOutputStream());
+            wb.write(bos);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IoUtil.close(bos);
+        }
     }
 
     /**
