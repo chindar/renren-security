@@ -215,7 +215,7 @@ public class CourierEntity implements Serializable {
 		return leaveDate;
 	}
 	/**
-	 * 设置：1:已绑定第三方 0:未绑定第三方
+	 * 设置：1:在职 0:离职
 	 */
 	public void setStatus(Integer status) {
 		this.status = status;

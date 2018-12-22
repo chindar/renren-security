@@ -7,6 +7,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -127,7 +128,9 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
                     courierEntity.setJoinBankNumber(Convert.toStr(lineList.get(9)));
                     courierEntity.setEntryDate(DateUtil.parse(Convert.toStr(lineList.get(10))));
                     courierEntity.setLeaveDate(DateUtil.parse(Convert.toStr(lineList.get(11))));
-                    courierEntity.setStatus(Convert.toInt(lineList.get(12)));
+                    String statusStr = Convert.toStr(lineList.get(12));
+                    int status = StrUtil.equals(statusStr, "在职") ? 1 : 0;
+                    courierEntity.setStatus(status);
                     courierEntity.setComment(Convert.toStr(lineList.get(13)));
                     courierEntity.setIsDelete(0);
                     String username = ((SysUserEntity) SecurityUtils.getSubject().getPrincipal()).getUsername();
@@ -247,7 +250,7 @@ public class CourierServiceImpl extends ServiceImpl<CourierDao, CourierEntity> i
                 if (ObjectUtil.isNotNull(statusI)) {
                     int status = statusI.intValue();
                     cell = row.createCell(12);
-                    cell.setCellValue(status == 1 ? "在职" : status == 0 ? "已离职" : "");
+                    cell.setCellValue(status == 1 ? "在职" : status == 0 ? "离职" : "");
                 }
                 // 备注
                 cell = row.createCell(13);

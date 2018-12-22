@@ -31,19 +31,19 @@ $(function () {
                 label: '配送员姓名',
                 name: 'courierName',
                 index: 'courier_name',
-                width: 80
+                width: 100
             },
             {
                 label: '身份证',
                 name: 'cardId',
                 index: 'card_id',
-                width: 80
+                width: 100
             },
             {
                 label: '电话',
                 name: 'phone',
                 index: 'phone',
-                width: 80
+                width: 100
             },
             {
                 label: '银行卡号',
@@ -82,7 +82,7 @@ $(function () {
                 width: 80,
                 formatter: function (value, options, row) {
                     return value === 0 ?
-                        '<span class="label label-danger">已离职</span>' :
+                        '<span class="label label-danger">离职</span>' :
                         value === 1 ?
                             '<span class="label label-success">在职</span>' :
                             '<span class="label"></span>';
@@ -291,14 +291,9 @@ var vm = new Vue({
          * @author Wang Chinda
          **********************************************************************/
         exportCourier: function () {
-            var grid = $("#jqGrid");
-            var ids = grid.getGridParam("selarrrow");
-            console.log();
-            let msg;
-            if (ids.length === 0) {
-                msg = '确定要导出全部的记录？';
-            } else {
-                msg = '确定要导出选中的记录？'
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
             }
             window.open("/admin/sys/courier/exportCourier?ids=" + ids);
         },
