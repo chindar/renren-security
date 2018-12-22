@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.*;
 
+import cn.hutool.core.convert.Convert;
 import com.alibaba.fastjson.JSONObject;
 import io.renren.common.utils.*;
 import io.renren.common.validator.ValidatorUtils;
@@ -103,7 +104,7 @@ public class DispatchInfoController {
                     rows.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
                     rows.getCell(4).setCellType(Cell.CELL_TYPE_STRING);
                     rows.getCell(5).setCellType(Cell.CELL_TYPE_STRING);
-                    rows.getCell(6).setCellType(Cell.CELL_TYPE_STRING);
+//                    rows.getCell(6).setCellType(Cell.CELL_TYPE_STRING);
 //                    rows.getCell(7).setCellType(Cell.CELL_TYPE_STRING);
 //                    rows.getCell(8).setCellType(Cell.CELL_TYPE_STRING);
                     rows.getCell(9).setCellType(Cell.CELL_TYPE_STRING);
@@ -126,7 +127,7 @@ public class DispatchInfoController {
                     entity.setSite(rows.getCell(3).getStringCellValue().trim());
                     entity.setErpId(rows.getCell(4).getStringCellValue().trim());
                     entity.setCourierName(rows.getCell(5).getStringCellValue().trim());
-                    entity.setRemark(rows.getCell(6).getStringCellValue().trim());
+                    entity.setRemark(Convert.toStr(rows.getCell(6)));
                     entity.setAllOrderTotal(Integer.valueOf((int)rows.getCell(7).getNumericCellValue()));
                     entity.setCountOrderTotal(Integer.valueOf((int)rows.getCell(8).getNumericCellValue()));
                     entity.setTotalMoney(new BigDecimal(rows.getCell(9).getStringCellValue().trim()));

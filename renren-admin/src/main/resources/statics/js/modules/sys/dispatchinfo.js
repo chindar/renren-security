@@ -221,9 +221,9 @@ methods: {
         }else{
 
         }
-        confirm('确定要导出选中的记录？', function () {
-            location.href = "sys/dispatchinfo/exportdata?id="+ids.join(",");
-        })
+        // confirm('确定要导出选中的记录？', function () {
+            window.open("/admin/sys/dispatchinfo/exportdata?id="+ids.join(","));
+        // })
     },
     add: function () {
         vm.showList = false;
